@@ -1,0 +1,297 @@
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden
+;}
+
+body * {
+  box-sizing: border-box;
+  color: #FFF;
+  -webkit-user-select: none;
+}
+
+[draggable] {
+  cursor: move;
+  position: fixed;
+}
+
+.glow {
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+
+.glow.activated {
+  background-image: url('../assets/gradient.png');
+  background-position: center; 
+  background-size: 100% 100%;
+}
+
+/* Keyboard visualizer styles start here.
+ * Keyboard is divided into following sections:
+ *
+ * - alpha
+ * - function
+ * - arrow
+ * - navigation
+ * - numpad
+ * - scroll
+ */
+
+.key {
+  background: rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 1);
+  border-radius: 10px;
+  
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-section=alpha] .key,
+[data-section=function] .key {
+  flex: 8;
+
+  width: 6.3%;
+  height: 0;
+  margin: 2px 0.15%;
+}
+
+[data-section=alpha] .key {
+  padding-top: 2.9%;
+  padding-bottom: 2.9%;
+}
+
+[data-section=function] .key {
+  padding-top: 3%;
+  padding-bottom: 3%;
+}
+
+[data-section=alpha],
+[data-section=function] {
+  width: 50%;
+  min-width: 467px;
+}
+
+[data-section=scroll],
+[data-section=navigation],
+[data-section=arrow] {
+  width: 11.25%;
+  min-width: 230px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+[data-section=scroll] .key,
+[data-section=navigation] .key,
+[data-section=arrow] .key {
+  height: 0;
+  padding-top: 12.5%;
+  padding-bottom: 12.5%;
+  margin: 2px 1%;
+}
+
+[data-section=scroll] .key,
+[data-section=navigation] .key,
+[data-section=arrow] .key {
+  width: 27%;
+}
+
+[data-section=arrow] [code=Up] {
+  margin: 2px 30%;
+}
+
+[data-section=numpad] {
+  width: 14%;
+  min-width: 230px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+[data-section=numpad] .numpad-left {
+  flex: 3;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+[data-section=numpad] .key {
+  width: 15%;
+  min-width: 60px;
+  display: flex;
+  flex-wrap: wrap;
+
+  height: 0;
+  padding-top: 14.25%;
+  padding-bottom: 14.25%;
+  margin: 2px 1%;
+}
+
+[data-section=numpad] .numpad-left .key {
+  flex: 1 0 60px;
+}
+
+[data-section=numpad] .numpad-left [code=Num0] {
+  flex: 2 0 63%;
+}
+
+[data-section=numpad] .numpad-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-section=numpad] .numpad-right [code=Subtract] {
+  flex: 2;
+}
+
+[data-section=numpad] .numpad-right [code=Add],
+[data-section=numpad] .numpad-right [code=NumEnter] {
+  flex: 5;
+}
+
+/* Initial positions */
+[data-section=alpha] {
+  left: 40px;
+  top: 427px;
+}
+
+[data-section=function] {
+  left: 40px;
+  top: 335px;
+}
+
+[data-section=scroll] {
+  left: 1050px;
+  top: 335px;
+}
+
+[data-section=navigation] {
+  left: 1050px;
+  top: 427px;
+}
+
+[data-section=arrow] {
+  left: 1050px;
+  top: 622px;
+}
+
+[data-section=numpad] {
+  left: 1283px;
+  top: 427px;
+}
+
+/* Mouse visualizer */
+#mouse {
+  position: relative;
+  border: 2px solid white;
+  border-radius: 11px;
+  white-space: nowrap;
+  min-height: 75px;
+  min-width: 65px;
+
+  width: 6%;
+  height: 14%;
+
+  left: 1685px;
+  top: 499px;
+}
+
+#mouse_left,
+#mouse_right {
+  width: calc(50%);
+  height: calc(100% * 60/85);
+  border-bottom: 2px solid white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+#mouse_right {
+  border-bottom-right-radius: 9px;
+  left: -6px; /* borders of mouse + middle line */
+}
+
+#mouse_left {
+  border-bottom-left-radius: 9px;
+}
+
+#mouse_middle {
+  position: absolute;
+  border: 2px solid white;
+  width: 16%;
+  height: 45%;
+
+  left: 42%;
+  top: 10%;
+  border-radius: 8px;
+}
+
+#mouse_scroll_up,
+#mouse_scroll_down {
+  width: 100%;
+  height: 50%;
+}
+
+/* Keyboard function section sizes */
+.key[code='Esc'] {
+  margin-right: 4%;
+}
+
+.key[code='F4'],
+.key[code='F8'] {
+  margin-right: 2.5%;
+}
+
+
+/* Keyboard alpha section sizes */
+.key[code='Backspace'] {
+  width: 8%;
+  padding-top: 26px;
+}
+
+.key[code='Tab'] {
+  width: 7.75%;
+}
+
+.key[code='CapsLock'] {
+  width: 10%;
+}
+
+.key[code='Enter'] {
+  width: 11%;
+}
+
+.key[code='LShift'],
+.key[code='RShift'] {
+  width: 14%;
+}
+
+.key[code='LCtrl'],
+.key[code='RCtrl'] {
+  width: 7%;
+}
+
+.key[code='LCommand'],
+.key[code='RCommand'] {
+  width: 7%;
+}
+
+.key[code='LAlt'],
+.key[code='RAlt'] {
+  width: 7%;
+}
+
+.key[code='Space'] {
+  width: 45%;
+}
+
+.key[code='Menu'] {
+  width: 7%;
+}

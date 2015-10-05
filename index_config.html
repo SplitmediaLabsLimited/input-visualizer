@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>keyboard Properties Editor</title>
+  </head>
+  <body>
+    <script src="bower_components/xjs-framework/dist/xjs.js"></script>
+    <script>
+      (function() {
+        'use strict';
+
+        var xjs = require('xjs');
+
+        xjs.ready().then(function() {
+          xjs.SourceConfigWindow.getInstance().useTabbedWindow({
+            customTabs: ['Custom'],
+            tabOrder: ['Custom', 'Color', 'Layout', 'Transition']
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

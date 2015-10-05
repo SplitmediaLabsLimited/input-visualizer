@@ -1,0 +1,7 @@
+{
+  "name": "keyboard",
+  "version": "0.1.0",
+  "dependencies": {
+    "xjs-framework": null
+  }
+}
