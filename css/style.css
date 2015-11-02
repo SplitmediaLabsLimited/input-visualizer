@@ -72,19 +72,36 @@ body * {
   padding-bottom: 3%;
 }
 
-[data-section=alpha],
 [data-section=function] {
-  width: 50%;
-  min-width: 467px;
+  width: 960px;
+  height: 65px;
+}
+
+[data-section=alpha] {
+  width: 960px;
+  height: 319px;
 }
 
 [data-section=scroll],
 [data-section=navigation],
-[data-section=arrow] {
-  width: 11.25%;
-  min-width: 230px;
+[data-section=arrow] { 
   display: flex;
   flex-wrap: wrap;
+}
+
+[data-section=scroll] {
+  width: 230px;
+  height: 66px;
+}
+
+[data-section=navigation] {
+  width: 230px;
+  height: 131px;
+}
+
+[data-section=arrow] {
+  width: 230px;
+  height: 131px;
 }
 
 
@@ -108,10 +125,13 @@ body * {
 }
 
 [data-section=numpad] {
-  width: 14%;
-  min-width: 230px;
   display: flex;
   flex-wrap: wrap;
+}
+
+[data-section=numpad] {
+  width: 269px;
+  height: 327px;
 }
 
 [data-section=numpad] .numpad-left {

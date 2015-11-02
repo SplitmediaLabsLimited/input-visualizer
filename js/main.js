@@ -289,6 +289,8 @@
     return item.setKeepLoaded(true);
   }).then(function(item) {
     return item.setPositionLocked(true);
+  }).then(function(item) {
+    return item.setBrowserCustomSize(xjs.Rectangle.fromDimensions(1920, 1019));
   }).then(function() {
     // initialize keyboard
     var keyboard = new KeystrokeVisualizer();
