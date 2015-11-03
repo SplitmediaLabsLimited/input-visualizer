@@ -6,7 +6,6 @@ html, body {
 body {
   margin: 0;
   overflow: hidden;
-  background: antiquewhite;
 }
 
 body * {
@@ -128,14 +127,8 @@ body * {
   flex-direction: column;
 }
 
-[data-section=numpad] .numpad-right [code=Subtract] {
-  flex: 2;
-}
-
 [data-section=numpad] .numpad-right [code=Add],
 [data-section=numpad] .numpad-right [code=NumEnter] {
-  flex: 5;
-
   height: 28px;
   padding: 60px 0;
 }
@@ -226,57 +219,48 @@ body * {
 
 /* Keyboard function section sizes */
 .key[code='Esc'] {
-  margin-right: 4%;
+  margin-right: 40px;
 }
 
 .key[code='F4'],
 .key[code='F8'] {
-  margin-right: 2.5%;
+  margin-right: 22px;
 }
 
 
 /* Keyboard alpha section sizes */
 .key[code='Backspace'] {
-  width: 8%;
+  width: 75px;
   line-height: 20px;
 }
 
 .key[code='Tab'] {
-  width: 7.75%;
+  width: 75px;
 }
 
 .key[code='CapsLock'] {
-  width: 10%;
+  width: 93px;
 }
 
 .key[code='Enter'] {
-  width: 11%;
+  width: 108px;
 }
 
 .key[code='LShift'],
 .key[code='RShift'] {
-  width: 14%;
+  width: 134px;
 }
 
 .key[code='LCtrl'],
-.key[code='RCtrl'] {
-  width: 7%;
-}
-
+.key[code='RCtrl'],
 .key[code='LCommand'],
-.key[code='RCommand'] {
-  width: 7%;
-}
-
+.key[code='RCommand'],
 .key[code='LAlt'],
-.key[code='RAlt'] {
-  width: 7%;
+.key[code='RAlt'],
+.key[code='Menu'] {
+  width: 65px;
 }
 
 .key[code='Space'] {
-  width: 45%;
-}
-
-.key[code='Menu'] {
-  width: 7%;
+  width: 437px;
 }
