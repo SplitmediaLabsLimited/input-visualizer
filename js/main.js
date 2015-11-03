@@ -291,9 +291,31 @@
     return item.setPositionLocked(true);
   }).then(function(item) {
     return item.setBrowserCustomSize(xjs.Rectangle.fromDimensions(1920, 1019));
-  }).then(function() {
+  }).then(function(item) {
     // initialize keyboard
     var keyboard = new KeystrokeVisualizer();
     keyboard.init();
+
+    var sections = {
+      func    : $('[data-section=function]'),
+      alpha   : $('[data-section=alpha]'),
+      system  : $('[data-section=scroll]'),
+      nav     : $('[data-section=navigation]'),
+      arrow   : $('[data-section=arrow]'),
+      numpad  : $('[data-section=numpad]'),
+      mouse   : $('[data-section=mouse]')
+    };
+
+    xjs.SourcePluginWindow.getInstance().on('save-config', function(config) {
+      item.saveConfig(config);
+      // apply configuration
+      for (var i in config) {
+        if (sections[i] !== undefined && config[i] === false) {
+          sections[i].addClass('hidden');
+        } else {
+          sections[i].removeClass('hidden');
+        }
+      }
+    });
   });
 })();

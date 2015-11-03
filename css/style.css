@@ -42,6 +42,10 @@ body * {
  * - scroll
  */
 
+[data-section].hidden {
+  display: none;
+}
+
 [data-section=function] {
   width: 960px;
   height: 65px;
