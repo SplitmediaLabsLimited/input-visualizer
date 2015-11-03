@@ -6,7 +6,7 @@ html, body {
 body {
   margin: 0;
   overflow: hidden;
-  background: blue;
+  background: antiquewhite;
 }
 
 body * {
@@ -60,12 +60,17 @@ body * {
 
 [data-section=navigation] {
   width: 230px;
-  height: 131px;
+  height: 123px;
 }
 
 [data-section=arrow] {
   width: 230px;
-  height: 131px;
+  height: 123px;
+}
+
+[data-section=numpad] {
+  width: 249px;
+  height: 314px;
 }
 
 [data-section=scroll],
@@ -89,26 +94,22 @@ body * {
   height: 0;
   width: 60px;
   padding: 28px 0;
-  margin: 2px 1px;
+  margin: 1px;
 }
 
-[data-section=alpha] .key,
-[data-section=function] .key {
-  padding: 28px 0;
+[data-section=scroll] .key,
+[data-section=navigation] .key,
+[data-section=arrow] .key {
+  margin: 1px 2px;
 }
 
 [data-section=arrow] [code=Up] {
-  margin: 2px 30%;
+  margin: 2px 66px;
 }
 
 [data-section=numpad] {
   display: flex;
   flex-wrap: wrap;
-}
-
-[data-section=numpad] {
-  width: 269px;
-  height: 327px;
 }
 
 [data-section=numpad] .numpad-left {
@@ -117,24 +118,8 @@ body * {
   flex-wrap: wrap;
 }
 
-[data-section=numpad] .key {
-  width: 15%;
-  min-width: 60px;
-  display: flex;
-  flex-wrap: wrap;
-
-  height: 0;
-  padding-top: 14.25%;
-  padding-bottom: 14.25%;
-  margin: 2px 1%;
-}
-
-[data-section=numpad] .numpad-left .key {
-  flex: 1 0 60px;
-}
-
 [data-section=numpad] .numpad-left [code=Num0] {
-  flex: 2 0 63%;
+  width: 122px;
 }
 
 [data-section=numpad] .numpad-right {
@@ -150,6 +135,9 @@ body * {
 [data-section=numpad] .numpad-right [code=Add],
 [data-section=numpad] .numpad-right [code=NumEnter] {
   flex: 5;
+
+  height: 28px;
+  padding: 60px 0;
 }
 
 /* Initial positions */
@@ -175,7 +163,7 @@ body * {
 
 [data-section=arrow] {
   left: 1050px;
-  top: 622px;
+  top: 611px;
 }
 
 [data-section=numpad] {
@@ -250,7 +238,7 @@ body * {
 /* Keyboard alpha section sizes */
 .key[code='Backspace'] {
   width: 8%;
-  padding-top: 26px;
+  line-height: 20px;
 }
 
 .key[code='Tab'] {
