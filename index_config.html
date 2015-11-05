@@ -8,15 +8,17 @@
   </head>
   <body>
   
-    <h1>Show/Hide keys</h1><br>
-    Function <input type="checkbox" name="show" id="function"><br>
-    Alphanumeric <input type="checkbox" name="show" id="alpha"><br>
-    System <input type="checkbox" name="show" id="system"><br>
-    Navigation <input type="checkbox" name="show" id="nav"><br>
-    Arrow keys <input type="checkbox" name="show" id="arrow"><br>
-    Numpad <input type="checkbox" name="show" id="numpad">
-    <br>
-    Mouse <input type="checkbox" name="show" id="mouse">
+    <h1>Show/Hide keys</h1>
+    <p>
+      <input type="checkbox" name="show" id="function">Function<br>
+      <input type="checkbox" name="show" id="alpha">Alphanumeric<br>
+      <input type="checkbox" name="show" id="system">System<br>
+      <input type="checkbox" name="show" id="nav">Navigation<br>
+      <input type="checkbox" name="show" id="arrow">Arrow keys<br>
+      <input type="checkbox" name="show" id="numpad">Numpad
+      <br>
+      <input type="checkbox" name="show" id="mouse">Mouse 
+    </p>
 
     <script src="bower_components/xjs-framework/dist/xjs.js"></script>
     <script>
@@ -94,7 +96,6 @@
           return currentSource.loadConfig();
         }).then(function(config) {
           // load last saved configuration
-
           // initialize to Show if no configuration set yet
           config = {
             func    : config.func !== undefined ? config.func : true,

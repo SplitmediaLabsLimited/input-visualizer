@@ -1,3 +1,14 @@
 body {
   font-family: 'Roboto', sans-serif;
 }
+
+h1 {
+  font-size: 12px;
+  color: #888;
+  font-weight: normal;
+}
+
+p {
+  font-size: 12px;
+  color: #CCC;
+}
