@@ -310,10 +310,12 @@
       item.saveConfig(config);
       // apply configuration
       for (var i in config) {
-        if (sections[i] !== undefined && config[i] === false) {
-          sections[i].addClass('hidden');
-        } else {
-          sections[i].removeClass('hidden');
+        if (sections[i] !== undefined) {
+          if (config[i] === false) {
+            sections[i].addClass('hidden');
+          } else {
+            sections[i].removeClass('hidden');
+          }
         }
       }
     });
