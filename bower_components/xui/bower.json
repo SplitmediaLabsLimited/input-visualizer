@@ -1,0 +1,13 @@
+{
+  "name": "xui-elements",
+  "version": "0.0.0",
+  "authors": [
+    "SplitmediaLabs"
+  ],
+  "license": "MIT",
+  "ignore": [
+  ],
+  "dependencies": {
+    "eventEmitter" : "*" 
+  }
+}

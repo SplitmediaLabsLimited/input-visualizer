@@ -1,0 +1,160 @@
+*, :host
+{
+	color: #EEE;
+	outline: none;
+}
+
+:host
+{
+	position: relative;
+	width: 20em;
+	height: 2.2em;	
+	display: inline-block;
+}
+
+#wrap
+{
+	border: 0.1em solid #000;
+	background-color: #393939;
+	width: 100%;
+	height: 100%;
+	display: -webkit-flex;
+}
+
+#wrap:hover
+{
+    background-color: #555;
+    color: #eee;
+}
+
+:host(:focus) #wrap
+{
+	background-color: #555;
+}
+
+#toggle,
+#input
+{
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	display: inline-block;
+}
+
+#input
+{
+	font-size: 1.2em;
+	padding: 0.2em 0 0.2em 0.5em;
+	text-overflow: ellipsis;
+  	overflow: hidden;
+  	white-space: nowrap;
+  	-webkit-flex: 1;
+}
+
+#toggle
+{
+	width: 2em;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-image: url("./images/arrowdown.png");
+}
+
+#wrap:hover #toggle,
+:host(:focus) #toggle,
+#toggle:hover
+{
+	background-image: url("./images/arrowdown_hover.png");
+}
+
+:host(:disabled) #toggle
+{
+	background-image: url("./images/arrowdown_disabled.png");
+	cursor: default;
+}
+
+#list
+{
+	position: absolute;
+	top: 100%;
+	left: 0;
+	display: none;
+	margin: 1px 0 0;
+  max-height: 102px;
+	padding: 0;
+    z-index: 10;
+}
+
+:host(:focus) #list
+{
+	display: block;
+}
+
+#list
+{
+	width: 100%;
+	border: 0.1em solid #555;
+	background-color: #000;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+
+/** Scrollbar **/
+::-webkit-scrollbar              
+{
+    background: #000;
+    width: 12px;
+}
+
+::-webkit-scrollbar-button
+{
+    height: 8px;
+    width: 12px;
+}
+
+::-webkit-scrollbar-button:increment
+{ 
+     background: transparent url("../images/scrollbar_down.png") no-repeat  2px; 
+}
+
+::-webkit-scrollbar-button:decrement
+{ 
+    background: transparent url("../images/scrollbar_up.png") no-repeat  2px;
+}
+
+::-webkit-scrollbar-button:increment:hover
+{ 
+     background: transparent url("../images/scrollbar_down_hover.png") no-repeat  2px; 
+}
+
+::-webkit-scrollbar-button:decrement:hover
+{ 
+    background: transparent url("../images/scrollbar_up_hover.png") no-repeat  2px;
+}
+
+::-webkit-scrollbar-button:increment:disabled
+{ 
+     background: transparent url("../images/scrollbar_down_disabled.png") no-repeat  2px; 
+}
+
+::-webkit-scrollbar-button:decrement:disabled
+{ 
+    background: transparent url("../images/scrollbar_up_disabled.png") no-repeat  2px;
+}
+
+::-webkit-scrollbar-track        
+{ 
+    background: #000;
+}
+
+::-webkit-scrollbar-thumb:hover      
+{ 
+    background: #eee;
+}
+
+::-webkit-scrollbar-thumb        
+{
+    background: #393939;
+    border-left: 1px solid #000;
+    width: 10px;
+}
