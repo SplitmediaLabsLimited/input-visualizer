@@ -6,6 +6,9 @@ html, body {
 body {
   margin: 0;
   overflow: hidden;
+  font-size: 7px;
+
+  background: lightblue;
 }
 
 body * {
@@ -14,7 +17,7 @@ body * {
   -webkit-user-select: none;
 }
 
-[draggable] { /* TODO: add draggability */;
+[data-section] {
   cursor: move;
   position: fixed;
 }
@@ -22,7 +25,6 @@ body * {
 .glow {
   font-family: sans-serif;
   font-weight: bold;
-  font-size: 17px;
 }
 
 .glow.activated {
@@ -46,35 +48,6 @@ body * {
   display: none;
 }
 
-[data-section=function] {
-  width: 960px;
-  height: 65px;
-}
-
-[data-section=alpha] {
-  width: 960px;
-  height: 319px;
-}
-
-[data-section=scroll] {
-  width: 230px;
-  height: 66px;
-}
-
-[data-section=navigation] {
-  width: 230px;
-  height: 123px;
-}
-
-[data-section=arrow] {
-  width: 230px;
-  height: 123px;
-}
-
-[data-section=numpad] {
-  width: 249px;
-  height: 314px;
-}
 
 [data-section=scroll],
 [data-section=navigation],
@@ -85,8 +58,8 @@ body * {
 
 .key {
   background: rgba(0, 0, 0, 0.2);
-  border: 2px solid rgba(255, 255, 255, 1);
-  border-radius: 10px;
+  border: 0.15em solid rgba(255, 255, 255, 1);
+  border-radius: 0.7em;
   
   display: inline-flex;
   align-items: center;
@@ -94,9 +67,8 @@ body * {
 }
 
 .key {
-  height: 0;
-  width: 60px;
-  padding: 28px 0;
+  height: 3em;
+  width: 3em;
   margin: 1px;
 }
 
@@ -139,13 +111,13 @@ body * {
 
 /* Initial positions */
 [data-section=alpha] {
-  left: 40px;
-  top: 427px;
+  left: 1em;
+  top: 5em;
 }
 
 [data-section=function] {
-  left: 40px;
-  top: 335px;
+  left: 1em;
+  top: 1em;
 }
 
 [data-section=scroll] {
@@ -223,36 +195,29 @@ body * {
 
 /* Keyboard function section sizes */
 .key[code='Esc'] {
-  margin-right: 40px;
+  margin-right: 3em;
 }
 
 .key[code='F4'],
 .key[code='F8'] {
-  margin-right: 22px;
+  margin-right: 2em;
 }
 
 
 /* Keyboard alpha section sizes */
-.key[code='Backspace'] {
-  width: 75px;
-  line-height: 20px;
-}
-
-.key[code='Tab'] {
-  width: 75px;
+.key[code='Backspace'],
+.key[code='Tab'],
+.key[code='Enter'] {
+  width: 6em;
 }
 
 .key[code='CapsLock'] {
-  width: 93px;
-}
-
-.key[code='Enter'] {
-  width: 108px;
+  width: 6.5em;
 }
 
 .key[code='LShift'],
 .key[code='RShift'] {
-  width: 134px;
+  width: 8.05em;
 }
 
 .key[code='LCtrl'],
@@ -262,9 +227,9 @@ body * {
 .key[code='LAlt'],
 .key[code='RAlt'],
 .key[code='Menu'] {
-  width: 65px;
+  width: 3.75em;
 }
 
 .key[code='Space'] {
-  width: 437px;
+  width: 22em;
 }
