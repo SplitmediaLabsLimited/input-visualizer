@@ -8,7 +8,7 @@ body {
   overflow: hidden;
   font-size: 7px;
 
-  background: lightblue;
+  background: cadetblue;
 }
 
 body * {
@@ -48,14 +48,6 @@ body * {
   display: none;
 }
 
-
-[data-section=scroll],
-[data-section=navigation],
-[data-section=arrow] { 
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .key {
   background: rgba(0, 0, 0, 0.2);
   border: 0.15em solid rgba(255, 255, 255, 1);
@@ -79,7 +71,7 @@ body * {
 }
 
 [data-section=arrow] [code=Up] {
-  margin: 2px 66px;
+  margin: 1px calc(4em + 1px);
 }
 
 [data-section=numpad] {
@@ -121,23 +113,23 @@ body * {
 }
 
 [data-section=scroll] {
-  left: 1050px;
-  top: 335px;
+  left: 57em;
+  top: 1em;
 }
 
 [data-section=navigation] {
-  left: 1050px;
-  top: 427px;
+  left: 57em;
+  top: 5em;
 }
 
 [data-section=arrow] {
-  left: 1050px;
-  top: 611px;
+  left: 57em;
+  top: 15em;
 }
 
 [data-section=numpad] {
-  left: 1325px;
-  top: 427px;
+  left: 72em;
+  top: 1em;
 }
 
 /* Mouse visualizer */
