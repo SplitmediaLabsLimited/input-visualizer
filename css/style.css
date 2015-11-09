@@ -77,22 +77,22 @@ body * {
   flex: 3;
   display: flex;
   flex-wrap: wrap;
+  max-width: 10em;
+  max-height: 16em;
 }
 
 [data-section=numpad] .numpad-left [code=Num0] {
-  width: 122px;
+  width: calc(6em + 2px);
 }
 
 [data-section=numpad] .numpad-right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  max-width: 3em;
+  max-height: 16em;
 }
 
 [data-section=numpad] .numpad-right [code=Add],
 [data-section=numpad] .numpad-right [code=NumEnter] {
-  height: 28px;
-  padding: 60px 0;
+  height: calc(6em + 2px);
 }
 
 /* Initial positions */
@@ -123,7 +123,7 @@ body * {
 
 [data-section=numpad] {
   left: 72em;
-  top: 1em;
+  top: 5em;
 }
 
 /* Mouse visualizer */
