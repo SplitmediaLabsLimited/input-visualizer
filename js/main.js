@@ -282,10 +282,36 @@
   };
 
   // jQuery UI interactions
-  $('[data-section]').resizable({
+  $('[data-section]').draggable().resizable({
     aspectRatio: true,
     handles: "all",
+    minWidth: 50,
     resize: function(event, ui) {
+      // ui.element is data section
+      var $element = ui.element;
+
+      // Gets the axis that the user is dragging.
+      var axis = $element.data('ui-resizable').axis;
+
+      // get current zoom, save as original zoom
+      var origZoom = parseFloat($element.css('zoom'));
+
+      // get ui.originalSize
+      // get ui.size
+      var ratio = ui.size.width / ui.originalSize.width;
+      // get ratio
+
+      // maintain size: ui.size = ui.originalSize
+      ui.size = ui.originalSize;
+
+      // get ui.originalPosition
+      // get ui.position
+      // apply ratio to ui.position -> new position = old(left,top) / ratio
+
+
+      // apply ratio to zoom
+      $element.css('zoom', origZoom*ratio);
+
     }
   });
 

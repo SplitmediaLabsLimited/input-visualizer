@@ -17,6 +17,7 @@ body * {
 
 [data-section] {
   position: fixed;
+  zoom: 1;
 }
 
 .glow {
