@@ -281,6 +281,14 @@
     }
   };
 
+  // jQuery UI interactions
+  $('[data-section]').resizable({
+    aspectRatio: true,
+    handles: "all",
+    resize: function(event, ui) {
+    }
+  });
+
   // XBC interaction begins here
   xjs.ready().then(Item.getCurrentSource).then(function(item) {
     // use whole stage for source
