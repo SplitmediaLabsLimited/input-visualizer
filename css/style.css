@@ -18,12 +18,11 @@ body * {
 }
 
 [data-section] {
-  cursor: move;
   position: fixed;
 }
 
 .glow {
-  font-family: sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   font-weight: bold;
 }
 
@@ -129,23 +128,20 @@ body * {
 /* Mouse visualizer */
 #mouse {
   position: relative;
-  border: 2px solid white;
-  border-radius: 11px;
+  border: 0.25em solid white;
+  border-radius: 3em;
   white-space: nowrap;
-  min-height: 75px;
-  min-width: 65px;
 
-  width: 6%;
-  height: 14%;
-
-  left: 1685px;
-  top: 499px;
+  width: 11em;
+  height: 15em;
+  left: 91em;
+  top: 5em;
 }
 
 #mouse_left,
 #mouse_right {
-  width: calc(50%);
-  height: calc(100% * 60/85);
+  width: 5.5em;
+  height: 9em;
   border-bottom: 2px solid white;
   display: inline-flex;
   align-items: center;
