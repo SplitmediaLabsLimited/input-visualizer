@@ -1,3 +1,5 @@
+/* globals require, $ */
+
 (function() {
   'use strict';
 
@@ -230,7 +232,7 @@
       default:
         break;
     }
-  }
+  };
 
   KeystrokeVisualizer.prototype.handleKeydown = function(wparam, lparam) {
     if (Array.isArray(wparamMap[wparam])) {
@@ -242,7 +244,7 @@
     } else {
       this.keyMap[wparam].addClass('activated');
     }
-  }
+  };
 
   KeystrokeVisualizer.prototype.handleKeyup = function(wparam, lparam) {
     // extra handling for any extended keys
@@ -270,13 +272,13 @@
       clearTimeout(this.mouseScrollUpTimeout);
       this.mouseScrollUpTimeout = setTimeout(function() {
         this.mouseMap.mouse_scroll_up.removeClass('activated');
-      }.bind(this), this.MOUSE_SCROLL_TIMEOUT);
+      }.bind(this), MOUSE_SCROLL_TIMEOUT);
       this.mouseMap.mouse_scroll_up.addClass('activated');
     } else if (direction === mouseScroll.DOWN) {
       clearTimeout(this.mouseScrollDownTimeout);
       this.mouseScrollDownTimeout = setTimeout(function() {
         this.mouseMap.mouse_scroll_down.removeClass('activated');
-      }.bind(this), this.MOUSE_SCROLL_TIMEOUT);
+      }.bind(this), MOUSE_SCROLL_TIMEOUT);
       this.mouseMap.mouse_scroll_down.addClass('activated');
     }
   };
@@ -284,34 +286,38 @@
   // jQuery UI interactions
   $('[data-section]').draggable().resizable({
     aspectRatio: true,
-    handles: "all",
+    handles: 'all',
     minWidth: 50,
     resize: function(event, ui) {
       // ui.element is data section
       var $element = ui.element;
 
-      // Gets the axis that the user is dragging.
+      // Gets the axis that the user is dragging. 'se', 'n', etc.
       var axis = $element.data('ui-resizable').axis;
 
-      // get current zoom, save as original zoom
+      // Get current zoom, save as original zoom
       var origZoom = parseFloat($element.css('zoom'));
+
+      // Get mouse position 
+      var mouseX = event.pageX;
+      var mouseY = event.pageY;
 
       // get ui.originalSize
       // get ui.size
-      var ratio = ui.size.width / ui.originalSize.width;
-      // get ratio
+      var newZoom = mouseX / (ui.originalPosition.left + ui.originalSize.width);
+
+      // enforce zoom boundaries
 
       // maintain size: ui.size = ui.originalSize
-      ui.size = ui.originalSize;
+      ui.size.width = ui.originalSize.width;
+      ui.size.height = ui.originalSize.height;
 
       // get ui.originalPosition
       // get ui.position
       // apply ratio to ui.position -> new position = old(left,top) / ratio
 
-
       // apply ratio to zoom
-      $element.css('zoom', origZoom*ratio);
-
+      $element.css('zoom', newZoom);
     }
   });
 
