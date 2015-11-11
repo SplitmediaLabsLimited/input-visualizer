@@ -284,7 +284,35 @@
   };
 
   // jQuery UI interactions
-  $('[data-section]').draggable().resizable({
+  $('[data-section]').draggable({
+    drag: function(event, ui) {
+      var $element = $(this);
+
+      var zoom = parseFloat($element.css('zoom'));
+
+      // adjust for zoom
+      ui.position.top = Math.round(ui.position.top / zoom);
+      ui.position.left = Math.round(ui.position.left / zoom);
+
+      // adjust for boundaries
+      if (ui.position.left < 0) {
+        ui.position.left = 0;
+      }
+      if (zoom * (ui.position.left + $element.width()) >
+        document.body.offsetWidth) {
+          ui.position.left = document.body.offsetWidth - 
+            ($element.width() * zoom);
+      }
+      if (ui.position.top < 0) {
+        ui.position.top = 0;
+      }
+      if (zoom * (ui.position.top + $element.height()) >
+        document.body.offsetHeight) {
+          ui.position.top = document.body.offsetHeight - 
+            ($element.height() * zoom);
+      }
+    }
+  }).resizable({
     aspectRatio: true,
     handles: 'all',
     minWidth: 50,
@@ -307,6 +335,9 @@
       var newZoom = mouseX / (ui.originalPosition.left + ui.originalSize.width);
 
       // enforce zoom boundaries
+      if (newZoom < 1 ) {
+        newZoom = 1;
+      }
 
       // maintain size: ui.size = ui.originalSize
       ui.size.width = ui.originalSize.width;
@@ -323,14 +354,16 @@
 
   // XBC interaction begins here
   xjs.ready().then(Item.getCurrentSource).then(function(item) {
+    return item.setKeepAspectRatio(false);
+  }).then(function(item) {
     // use whole stage for source
     return item.setPosition(Rectangle.fromCoordinates(0, 0, 1, 1));
   }).then(function(item) {
     return item.setKeepLoaded(true);
   }).then(function(item) {
-    return item.setPositionLocked(true);
-  }).then(function(item) {
     return item.setBrowserCustomSize(xjs.Rectangle.fromDimensions(1920, 1019));
+  }).then(function(item) {
+    return item.setPositionLocked(true);
   }).then(function(item) {
     // initialize keyboard
     var keyboard = new KeystrokeVisualizer();
