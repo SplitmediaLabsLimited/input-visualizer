@@ -284,15 +284,29 @@
   };
 
   // jQuery UI interactions
+  var positionX;
+  var positionY;
+  var pointerX;
+  var pointerY;
+
   $('[data-section]').draggable({
+    start: function(event, ui) {
+      positionX = ui.position.left;
+      positionY = ui.position.top;
+      pointerX = event.pageX;
+      pointerY = event.pageY;
+    },
     drag: function(event, ui) {
       var $element = $(this);
 
       var zoom = parseFloat($element.css('zoom'));
 
+      var offsetX = (event.pageX - pointerX);
+      var offsetY = (event.pageY - pointerY);
+
       // adjust for zoom
-      ui.position.top = Math.round(ui.position.top / zoom);
-      ui.position.left = Math.round(ui.position.left / zoom);
+      ui.position.top = Math.round(positionY + offsetY / zoom);
+      ui.position.left = Math.round(positionX + offsetX / zoom);
 
       // adjust for boundaries
       if (ui.position.left < 0) {
