@@ -363,6 +363,9 @@
 
       // apply ratio to zoom
       $element.css('zoom', newZoom);
+
+      // zoom out resizer handles so they will be the same size for all zooms
+      $element.children('.ui-resizable-handle').css('zoom', 1 / newZoom);
     }
   });
 
