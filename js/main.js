@@ -300,16 +300,16 @@
       }
       if (zoom * (ui.position.left + $element.width()) >
         document.body.offsetWidth) {
-          ui.position.left = document.body.offsetWidth - 
-            ($element.width() * zoom);
+          ui.position.left = (document.body.offsetWidth - 
+            zoom * $element.width()) / zoom;
       }
       if (ui.position.top < 0) {
         ui.position.top = 0;
       }
       if (zoom * (ui.position.top + $element.height()) >
         document.body.offsetHeight) {
-          ui.position.top = document.body.offsetHeight - 
-            ($element.height() * zoom);
+          ui.position.top = (document.body.offsetHeight -
+           zoom * $element.height()) / zoom;
       }
     }
   }).resizable({
