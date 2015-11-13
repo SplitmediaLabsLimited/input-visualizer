@@ -7,6 +7,7 @@ body {
   margin: 0;
   overflow: hidden;
   font-size: 7px;
+  background-color: #1346C6;
 }
 
 body * {
@@ -47,7 +48,7 @@ body * {
 }
 
 [data-section]:hover {
-  outline: 1px solid black;
+  outline: 1px solid white;
 }
 
 .key {
@@ -67,7 +68,23 @@ body * {
 }
 
 [data-section=arrow] [code=Up] {
-  margin: 1px calc(4em - 2px);
+  margin: 1px 0 1px calc(4em - 2px);
+}
+
+/* Container (data-section) width fixes */
+[data-section=arrow] [code=Right],
+[data-section=navigation] [code=PageUp],
+[data-section=navigation] [code=PageDown] {
+  margin-right: 0;
+}
+
+[data-section=function] [code='Esc'],
+[data-section=alpha] [code='`'],
+[data-section=alpha] [code='Tab'],
+[data-section=alpha] [code='CapsLock'],
+[data-section=alpha] [code='LShift'],
+[data-section=alpha] [code='LCtrl'] {
+  margin-left: 3px;
 }
 
 [data-section=numpad] {
