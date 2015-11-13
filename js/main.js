@@ -177,12 +177,14 @@
       mouse_scroll_down : null
     };
 
+    var mapKeyFunction = function(mappedKey) {
+      this.keyMap[mappedKey] = $('.key[code=\'' + mappedKey + '\']');
+    }.bind(this);
+
     for (var keys in wparamMap) {
       var mapped = wparamMap[keys];
       if (Array.isArray(mapped)) {
-        mapped.forEach(function(mappedKey) {
-          this.keyMap[mappedKey] = $('.key[code=\'' + mappedKey + '\']');
-        }.bind(this));
+        mapped.forEach(mapKeyFunction);
       } else {
         this.keyMap[keys] = $('.key[code=\'' + mapped + '\']'); 
       }
@@ -284,10 +286,14 @@
   };
 
   // jQuery UI interactions
+  // Draggable
   var positionX;
   var positionY;
   var pointerX;
   var pointerY;
+  // Resizable
+  var originalZoom;
+
 
   $('[data-section]').draggable({
     start: function(event, ui) {
@@ -330,6 +336,9 @@
     aspectRatio: true,
     handles: 'all',
     minWidth: 50,
+    start: function() {
+      originalZoom = $(this).css('zoom');
+    },
     resize: function(event, ui) {
       // ui.element is data section
       var $element = ui.element;
@@ -337,8 +346,6 @@
       // Gets the axis that the user is dragging. 'se', 'n', etc.
       var axis = $element.data('ui-resizable').axis;
 
-      // Get current zoom, save as original zoom
-      var origZoom = parseFloat($element.css('zoom'));
 
       // Get mouse position 
       var mouseX = event.pageX;
@@ -353,13 +360,24 @@
         newZoom = 1;
       }
 
-      // maintain size: ui.size = ui.originalSize
-      ui.size.width = ui.originalSize.width;
-      ui.size.height = ui.originalSize.height;
+      // get ratio after all zoom checks are done
+      var zoomChangeRatio = newZoom / originalZoom;
 
       // get ui.originalPosition
       // get ui.position
       // apply ratio to ui.position -> new position = old(left,top) / ratio
+      ui.position.left = ui.originalPosition.left / zoomChangeRatio;
+      ui.position.top = ui.originalPosition.top / zoomChangeRatio;
+
+      // maintain size: ui.size = ui.originalSize
+      ui.size.width = ui.originalSize.width;
+      ui.size.height = ui.originalSize.height;
+      // workaround for mouse, as jquery uses px dimensions by default
+      if ($element.is('#mouse')) {
+        $element.css('width', '').css('height', '');
+        ui.size.width = '';
+        ui.size.height = '';
+      }
 
       // apply ratio to zoom
       $element.css('zoom', newZoom);
