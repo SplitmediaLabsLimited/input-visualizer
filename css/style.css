@@ -67,14 +67,15 @@ body * {
   margin: 1px;
 }
 
-[data-section=arrow] [code=Up] {
-  margin: 1px 0 1px calc(4em - 2px);
+.key.hidden {
+  visibility: hidden;
 }
 
 /* Container (data-section) width fixes */
 [data-section=arrow] [code=Right],
 [data-section=navigation] [code=PageUp],
-[data-section=navigation] [code=PageDown] {
+[data-section=navigation] [code=PageDown],
+.key.no-margin-right {
   margin-right: 0;
 }
 

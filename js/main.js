@@ -346,19 +346,29 @@
       // Gets the axis that the user is dragging. 'se', 'n', etc.
       var axis = $element.data('ui-resizable').axis;
 
-
       // Get mouse position 
       var mouseX = event.pageX;
       var mouseY = event.pageY;
 
-      // get ui.originalSize
-      // get ui.size
-      var newZoom = mouseX / (ui.originalPosition.left + ui.originalSize.width);
+      // get correct new zoom based on axis
+      var newZoom = 0;
+      if (axis.indexOf('e') !== -1) {
+          newZoom = Math.max(newZoom, (mouseX - originalZoom *
+            ui.originalPosition.left) / ui.originalSize.width);
+      }
+      if (axis.indexOf('s') !== -1) {
+          newZoom = Math.max(newZoom, (mouseY - originalZoom *
+            ui.originalPosition.top) / ui.originalSize.height);
+      }
 
       // enforce zoom boundaries
+      // Check: minimum zoom level
       if (newZoom < 1 ) {
         newZoom = 1;
       }
+      // Check: resizing must not exceed boundaries
+
+
 
       // get ratio after all zoom checks are done
       var zoomChangeRatio = newZoom / originalZoom;
