@@ -286,12 +286,10 @@
   };
 
   // jQuery UI interactions
-  // Draggable
   var positionX;
   var positionY;
   var pointerX;
   var pointerY;
-  // Resizable
   var originalZoom;
 
 
@@ -336,8 +334,10 @@
     aspectRatio: true,
     handles: 'all',
     minWidth: 50,
-    start: function() {
+    start: function(event, ui) {
       originalZoom = $(this).css('zoom');
+      positionX = ui.position.left;
+      positionY = ui.position.top;
     },
     resize: function(event, ui) {
       // ui.element is data section
@@ -352,13 +352,20 @@
 
       // get correct new zoom based on axis
       var newZoom = 0;
-      if (axis.indexOf('e') !== -1) {
+      if (axis.indexOf('w') === -1) {
           newZoom = Math.max(newZoom, (mouseX - originalZoom *
             ui.originalPosition.left) / ui.originalSize.width);
+      } else if (axis.indexOf('e') === -1) {
+          newZoom = Math.max(newZoom, (originalZoom * positionX -
+            mouseX) / ui.originalSize.width);
       }
-      if (axis.indexOf('s') !== -1) {
+
+      if (axis.indexOf('n') === -1) {
           newZoom = Math.max(newZoom, (mouseY - originalZoom *
             ui.originalPosition.top) / ui.originalSize.height);
+      } else if (axis.indexOf('s') === -1) {
+          newZoom = Math.max(newZoom, (originalZoom * positionY -
+            mouseY) / ui.originalSize.height);
       }
 
       // enforce zoom boundaries
@@ -376,8 +383,17 @@
       // get ui.originalPosition
       // get ui.position
       // apply ratio to ui.position -> new position = old(left,top) / ratio
-      ui.position.left = ui.originalPosition.left / zoomChangeRatio;
-      ui.position.top = ui.originalPosition.top / zoomChangeRatio;
+      if (axis.indexOf('w') === -1) {
+        ui.position.left = ui.originalPosition.left / zoomChangeRatio;
+      } else if (axis.indexOf('e') === -1) {
+        ui.position.left = mouseX / newZoom;
+      }
+
+      if (axis.indexOf('n') === -1) {
+        ui.position.top = ui.originalPosition.top / zoomChangeRatio;
+      } else if (axis.indexOf('s') === -1) {
+        ui.position.top = mouseY / newZoom;
+      }
 
       // maintain size: ui.size = ui.originalSize
       ui.size.width = ui.originalSize.width;

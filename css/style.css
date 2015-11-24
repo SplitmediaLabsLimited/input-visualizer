@@ -106,8 +106,8 @@ body * {
 }
 
 [data-section=numpad] .numpad-right {
-  max-width: 3em;
-  max-height: 16em;
+  max-width: 3.5em;
+  max-height: 17em;
 }
 
 [data-section=numpad] .numpad-right [code=Add],
