@@ -286,31 +286,31 @@
   };
 
   // jQuery UI interactions
-  var positionX;
-  var positionY;
-  var pointerX;
-  var pointerY;
-  var originalZoom;
+  var initPositionX;
+  var initPositionY;
+  var initPointerX;
+  var initPointerY;
+  var initZoom;
 
 
   $('[data-section]').draggable({
     start: function(event, ui) {
-      positionX = ui.position.left;
-      positionY = ui.position.top;
-      pointerX = event.pageX;
-      pointerY = event.pageY;
+      initPositionX = ui.position.left;
+      initPositionY = ui.position.top;
+      initPointerX = event.pageX;
+      initPointerY = event.pageY;
     },
     drag: function(event, ui) {
       var $element = $(this);
 
       var zoom = parseFloat($element.css('zoom'));
 
-      var offsetX = (event.pageX - pointerX);
-      var offsetY = (event.pageY - pointerY);
+      var offsetX = (event.pageX - initPointerX);
+      var offsetY = (event.pageY - initPointerY);
 
       // adjust for zoom
-      ui.position.top = Math.round(positionY + offsetY / zoom);
-      ui.position.left = Math.round(positionX + offsetX / zoom);
+      ui.position.top = Math.round(initPositionY + offsetY / zoom);
+      ui.position.left = Math.round(initPositionX + offsetX / zoom);
 
       // adjust for boundaries
       if (ui.position.left < 0) {
@@ -335,9 +335,12 @@
     handles: 'all',
     minWidth: 50,
     start: function(event, ui) {
-      originalZoom = $(this).css('zoom');
-      positionX = ui.position.left;
-      positionY = ui.position.top;
+      initZoom = $(this).css('zoom');
+      initPositionX = ui.position.left;
+      initPositionY = ui.position.top;
+
+      initPointerX = event.pageX;
+      initPointerY = event.pageY;
     },
     resize: function(event, ui) {
       // ui.element is data section
@@ -350,22 +353,43 @@
       var mouseX = event.pageX;
       var mouseY = event.pageY;
 
+      // Disallow interactions beyond screen bounds
+      if (mouseX < 0) {
+        mouseX = 0;
+      } else if (mouseX > $(window).width()) {
+        mouseX = $(window).width;
+      }
+      if (mouseY < 0) {
+        mouseY = 0;
+      } else if (mouseY > $(window).height()) {
+        mouseY = $(window).height();
+      }
+
+      // Disallow resizing beyond initial position
+      if (axis.indexOf('e') === -1 && mouseX > initPointerX) {
+        mouseX = initPointerX;
+      }
+
+      if (axis.indexOf('s') === -1 && mouseY > initPointerY) {
+        mouseY = initPointerY;
+      }
+
       // get correct new zoom based on axis
       var newZoom = 0;
       if (axis.indexOf('w') === -1) {
-          newZoom = Math.max(newZoom, (mouseX - originalZoom *
+          newZoom = Math.max(newZoom, (mouseX - initZoom *
             ui.originalPosition.left) / ui.originalSize.width);
       } else if (axis.indexOf('e') === -1) {
-          newZoom = Math.max(newZoom, (originalZoom * positionX -
-            mouseX) / ui.originalSize.width);
+          newZoom = Math.max(newZoom, (ui.originalSize.width + initZoom *
+            (initPositionX -  mouseX)) / ui.originalSize.width);
       }
 
       if (axis.indexOf('n') === -1) {
-          newZoom = Math.max(newZoom, (mouseY - originalZoom *
+          newZoom = Math.max(newZoom, (mouseY - initZoom *
             ui.originalPosition.top) / ui.originalSize.height);
       } else if (axis.indexOf('s') === -1) {
-          newZoom = Math.max(newZoom, (originalZoom * positionY -
-            mouseY) / ui.originalSize.height);
+          newZoom = Math.max(newZoom, (ui.originalSize.height + initZoom * 
+            (initPositionY - mouseY)) / ui.originalSize.height);
       }
 
       // enforce zoom boundaries
@@ -373,12 +397,11 @@
       if (newZoom < 1 ) {
         newZoom = 1;
       }
+
       // Check: resizing must not exceed boundaries
 
-
-
-      // get ratio after all zoom checks are done
-      var zoomChangeRatio = newZoom / originalZoom;
+      // get ratio after all zoom checks are done.
+      var zoomChangeRatio = newZoom / initZoom;
 
       // get ui.originalPosition
       // get ui.position
