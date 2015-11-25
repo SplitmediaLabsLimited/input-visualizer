@@ -291,6 +291,7 @@
   var initPointerX;
   var initPointerY;
   var initZoom;
+  var axis;
 
 
   $('[data-section]').draggable({
@@ -341,13 +342,13 @@
 
       initPointerX = event.pageX;
       initPointerY = event.pageY;
+
+      // Gets the axis that the user is dragging. 'se', 'n', etc.
+      axis = $(ui.element).data('ui-resizable').axis;
     },
     resize: function(event, ui) {
       // ui.element is data section
       var $element = ui.element;
-
-      // Gets the axis that the user is dragging. 'se', 'n', etc.
-      var axis = $element.data('ui-resizable').axis;
 
       // Get mouse position 
       var mouseX = event.pageX;
@@ -365,31 +366,22 @@
         mouseY = $(window).height();
       }
 
-      // Disallow resizing beyond initial position
-      if (axis.indexOf('e') === -1 && mouseX > initPointerX) {
-        mouseX = initPointerX;
-      }
-
-      if (axis.indexOf('s') === -1 && mouseY > initPointerY) {
-        mouseY = initPointerY;
-      }
-
       // get correct new zoom based on axis
       var newZoom = 0;
       if (axis.indexOf('w') === -1) {
           newZoom = Math.max(newZoom, (mouseX - initZoom *
             ui.originalPosition.left) / ui.originalSize.width);
       } else if (axis.indexOf('e') === -1) {
-          newZoom = Math.max(newZoom, (ui.originalSize.width + initZoom *
-            (initPositionX -  mouseX)) / ui.originalSize.width);
+          newZoom = Math.max(newZoom, (initZoom * (ui.originalSize.width + 
+            initPositionX) - mouseX) / ui.originalSize.width);
       }
 
       if (axis.indexOf('n') === -1) {
           newZoom = Math.max(newZoom, (mouseY - initZoom *
             ui.originalPosition.top) / ui.originalSize.height);
       } else if (axis.indexOf('s') === -1) {
-          newZoom = Math.max(newZoom, (ui.originalSize.height + initZoom * 
-            (initPositionY - mouseY)) / ui.originalSize.height);
+          newZoom = Math.max(newZoom, (initZoom * (ui.originalSize.height + 
+            initPositionY) - mouseY) / ui.originalSize.height);
       }
 
       // enforce zoom boundaries
@@ -397,6 +389,8 @@
       if (newZoom < 1 ) {
         newZoom = 1;
       }
+
+      console.log(axis);
 
       // Check: resizing must not exceed boundaries
 
@@ -410,12 +404,18 @@
         ui.position.left = ui.originalPosition.left / zoomChangeRatio;
       } else if (axis.indexOf('e') === -1) {
         ui.position.left = mouseX / newZoom;
+        if (ui.position.left > initPositionX && newZoom === 1) {
+          ui.position.left = initPositionX;
+        }
       }
 
       if (axis.indexOf('n') === -1) {
         ui.position.top = ui.originalPosition.top / zoomChangeRatio;
       } else if (axis.indexOf('s') === -1) {
         ui.position.top = mouseY / newZoom;
+        if (ui.position.top > initPositionY && newZoom === 1) {
+          ui.position.top = initPositionY;
+        }
       }
 
       // maintain size: ui.size = ui.originalSize
