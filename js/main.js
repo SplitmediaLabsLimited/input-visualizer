@@ -390,7 +390,7 @@
     handles: 'all',
     minWidth: 50,
     start: function(event, ui) {
-      initZoom = $(this).css('zoom');
+      initZoom = $(this).attr('data-zoom');
       initPositionX = ui.position.left;
       initPositionY = ui.position.top;
       initPointerX = event.pageX;
@@ -407,6 +407,8 @@
       // Get mouse position 
       var  mouseX = event.pageX;
       var  mouseY = event.pageY;
+
+      var theHeight = parseInt($element.css('height'));
       // Disallow interactions beyond screen bounds
       if (mouseX < 0) {
         mouseX = 0;
@@ -420,7 +422,6 @@
         mouseX = 0;
       }
       if (mouseY > $(window).height()) {
-        console.log($(window).height());
         mouseY = $(window).height();
        }
 
@@ -446,95 +447,38 @@
       if (newZoom < 1 ) {
         newZoom = 1;
       }
-      // Check: resizing must not exceed boundaries
-
-      // get ratio after all zoom checks are done.
-      var zoomChangeRatio = newZoom / initZoom;
-      
-      // get ui.originalPosition
-      // get ui.position
-      // apply ratio to ui.position -> new position = old(left,top) / ratio
-      if (axis.indexOf('w') === -1) {
-        ui.position.left = ui.originalPosition.left / zoomChangeRatio;
-      } else if (axis.indexOf('e') === -1) {
-        if (ui.position.left > initPositionX && newZoom === 1) {
-          ui.position.left = stopX;
-        } else {
-          ui.position.left = mouseX / newZoom;
-          stopX = mouseX;
-        }
+      if (parseInt($element.css('top')) < 0) {
+        ui.position.top = 0;
       }
 
-      if (axis.indexOf('n') === -1) {
-        ui.position.top = ui.originalPosition.top / zoomChangeRatio;
-      } else if (axis.indexOf('s') === -1) {
-        if (ui.position.top > initPositionY && newZoom === 1) {
-          ui.position.top = stopY;
-        } else {
-          ui.position.top = mouseY / newZoom;
-          stopY = mouseY;
-        }
-      }
-      
-      // maintain size: ui.size = ui.originalSize
-      ui.size.width = ui.originalSize.width;
-      ui.size.height = ui.originalSize.height;
-      // workaround for mouse, as jquery uses px dimensions by default
       if ($element.is('#mouse')) {
-        $element.css('width', '').css('height', '');
-        ui.size.width = '';
-        ui.size.height = '';
+        $element.css('font-size', (theHeight * 0.06) + 'px');
       }
-      // apply ratio to zoom
-      $element.css('zoom', newZoom);
 
-      //Save new zoom per ui item
-        whichItem = ui.helper.context.id;
-        if(whichItem === 'mouse'){
-          tempConfig.mouseZoom = newZoom;
-          tempConfig.mouseXpos = ui.position.top;
-          tempConfig.mouseYpos = ui.position.left;
-        }
+      if ($element.is('#scroll')) {
+        $element.css('font-size', (theHeight * 0.19) + 'px');
+      }
 
-        if(whichItem === 'numpad'){
-          tempConfig.numpadZoom = newZoom;
-          tempConfig.numpadXpos = ui.position.top;
-          tempConfig.numpadYpos = ui.position.left;
-        }
-        
-        if(whichItem === 'function'){
-          tempConfig.funcZoom = newZoom;
-          tempConfig.funcXpos = ui.position.top;
-          tempConfig.funcYpos = ui.position.left;
-        }
+      if ($element.is('#function')) {
+        $element.css('font-size', (theHeight * 0.25) + 'px');
+      }
 
-        if(whichItem === 'alpha'){
-          tempConfig.alphaZoom = newZoom;
-          tempConfig.alphaXpos = ui.position.top;
-          tempConfig.alphaYpos = ui.position.left;
+      if ($element.is('#navigation') || $element.is('#arrow')) {
+        $element.css('font-size', (theHeight * 0.12) + 'px');
+      }
 
-        }
+      if ($element.is('#numpad') || $element.is('#alpha')) {
+        $element.css('font-size', (theHeight * 0.045) + 'px');
+      }
 
-        if(whichItem === 'scroll'){
-          tempConfig.systemZoom = newZoom;
-          tempConfig.systemXpos = ui.position.top;
-          tempConfig.systemYpos = ui.position.left;
-        }
+      if (($element.width() + initPositionX + 5) > $(window).width()) {
+        $(this).resizable('widget').trigger('mouseup');
+      }
 
-        if(whichItem === 'navigation'){
-          tempConfig.navZoom = newZoom;
-          tempConfig.navXpos = ui.position.top;
-          tempConfig.navYpos = ui.position.left;
-        }
+      if (($element.height() + initPositionY + 5) > $(window).height()) {
+        $(this).resizable('widget').trigger('mouseup');
+      }
 
-        if(whichItem === 'arrow'){
-          tempConfig.arrowZoom = newZoom;
-          tempConfig.arrowXpos = ui.position.top;
-          tempConfig.arrowYpos = ui.position.left;
-        }
-
-      // zoom out resizer handles so they will be the same size for all zooms
-      $element.children('.ui-resizable-handle').css('zoom', 1 / newZoom);
     }
   });
 
