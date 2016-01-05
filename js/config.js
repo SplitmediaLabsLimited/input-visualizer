@@ -6,6 +6,9 @@
       SourceConfigWindow = xjs.SourceConfigWindow;
 
   var currentSource;
+  var temp = true;
+
+  var closeBtn = document.getElementById('done');
 
   var elements = {
     func     : document.getElementById('function'),
@@ -15,7 +18,7 @@
     arrow    : document.getElementById('arrow'),
     numpad   : document.getElementById('numpad'),
     mouse    : document.getElementById('mouse'),
-    keyboard : document.getElementById('keyboard')
+    keyboard : document.getElementById('keyboard'),
   };
 
   var updateElements = function(config) {
@@ -46,6 +49,45 @@
     if (config.mouse === true) {
       elements.mouse.checked = true;
     }
+
+    if (config.keyboard === true) {
+      elements.keyboard.checked = true;
+      if (temp === true){
+        elements.numpad.checked = true;
+        elements.arrow.checked = true;
+        elements.nav.checked = true;
+        elements.system.checked = true;
+        elements.alpha.checked = true;
+        elements.func.checked = true;
+        temp = false;
+      }
+    }
+
+    if (config.keyboard === false) {
+      elements.keyboard.checked = false;
+      if (temp === false){
+        elements.numpad.checked = false;
+        elements.arrow.checked = false;
+        elements.nav.checked = false;
+        elements.system.checked = false;
+        elements.alpha.checked = false;
+        elements.func.checked = false;
+        temp = true;
+      }
+    }
+
+    if ((config.func === false)||(config.alpha === false)||(config.system === false)||(config.nav === false)||(config.arrow === false)||(config.numpad === false)){
+      elements.keyboard.checked = false;
+      temp = true;
+    }
+
+    if ((config.func === true)&&(config.alpha === true)&&(config.system === true)&&(config.nav === true)&&(config.arrow === true)&&(config.numpad === true)){
+      elements.keyboard.checked = true;
+      temp = false;
+    }
+
+
+
   };
 
   var updateConfig = function(item) {
@@ -57,21 +99,26 @@
       arrow   : elements.arrow.checked,
       numpad  : elements.numpad.checked,
       mouse   : elements.mouse.checked,
+      keyboard   : elements.keyboard.checked,
     };
-
+    updateElements(config);
     item.requestSaveConfig(config);
+    
   };
 
   xjs.ready().then(function() {
+    var configWindow =  xjs.SourceConfigWindow.getInstance();
     SourceConfigWindow.getInstance().useTabbedWindow({
       customTabs: ['Keyboard/Mouse'],
       tabOrder: ['Keyboard/Mouse', 'Color', 'Layout', 'Transition']
     });
+
     return Item.getCurrentSource();
   }).then(function(myItem) {
     currentSource = myItem;
     return currentSource.loadConfig();
   }).then(function(config) {
+    
     // load last saved configuration
     // initialize to Show if no configuration set yet
     config = {
@@ -82,6 +129,7 @@
       arrow   : config.arrow !== undefined ? config.arrow : true,
       numpad  : config.numpad !== undefined ? config.numpad : true,
       mouse   : config.mouse !== undefined ? config.mouse : true,
+      keyboard   : config.keyboard !== undefined ? config.keyboard : true,
     };
 
     updateElements(config);

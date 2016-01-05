@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="css/jquery-ui-custom.css" />
     <link rel="stylesheet" href="css/style.css" />
   </head>
-  <body>
-    <div data-section="function">
+  <body id='allItems'>
+  <div data-section='keyboard'>
+    <div data-section="function" id="function">
     <div class="key glow" code="Esc">Esc</div>
     <div class="key glow" code="F1">F1</div>
     <div class="key glow" code="F2">F2</div>
@@ -26,7 +27,7 @@
     <div class="key glow" code="F12">F12</div>
   </div>
 
-  <div data-section="alpha">
+  <div data-section="alpha" id="alpha">
     <div class="key glow" code="`">`</div>
     <div class="key glow" code="1">1</div>
     <div class="key glow" code="2">2</div>
@@ -94,13 +95,13 @@
     <div class="key glow" code="RCtrl">&#8963</div>
   </div>
 
-  <div data-section="scroll">
+  <div data-section="scroll" id="scroll">
     <div class="key glow" code="PrtScr">PrtScr</div>
     <div class="key glow" code="ScrollLock">Scr</div>
     <div class="key glow" code="Pause">Pause</div>
   </div>
 
-  <div data-section="navigation">
+  <div data-section="navigation" id="navigation">
     <div class="key glow" code="Insert">Ins</div>
     <div class="key glow" code="Home">Home</div>
     <div class="key glow" code="PageUp">PgUp</div>
@@ -110,7 +111,7 @@
     <div class="key glow" code="PageDown">PgDn</div>
   </div>
 
-  <div data-section="arrow">
+  <div data-section="arrow" id="arrow">
     <div class="key hidden">.</div>
     <div class="key glow" code="Up">&#x2191</div>
     <div class="key hidden no-margin-right">.</div>
@@ -120,7 +121,7 @@
     <div class="key glow" code="Right">&#x2192</div>
   </div>
 
-  <div data-section="numpad">
+  <div data-section="numpad" id="numpad">
     <div class="numpad-left">
       <div class="key glow" code="NumLock">Num</div>
       <div class="key glow" code="Divide">/</div>
@@ -145,7 +146,7 @@
     </div>
 
   </div>
-
+</div>
   <div id="mouse" data-section="mouse">
     <div id="mouse_left" class="glow">L</div>
     <div id="mouse_middle" class="glow">

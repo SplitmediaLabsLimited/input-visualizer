@@ -7,7 +7,6 @@ body {
   margin: 0;
   overflow: hidden;
   font-size: 7px;
-  background-color: #1346C6;
 }
 
 body * {
@@ -117,33 +116,51 @@ body * {
 
 /* Initial positions */
 [data-section=alpha] {
-  left: 1em;
-  top: 5em;
+  left: 0px;
+  top: 215.426px;
+  width: 373px;
+  height: 115px;
+  zoom: 3.07247;
 }
 
 [data-section=function] {
-  left: 1em;
-  top: 1em;
+  left: 0px;
+  top: 187.621px;
+  width: 371px;
+  height: 23px;
+  zoom: 3.06469;
 }
 
 [data-section=scroll] {
-  left: 57em;
-  top: 1em;
+  left: 336px;
+  top: 161px;
+  width: 73px;
+  height: 23px;
+  zoom: 3.56817;
 }
 
 [data-section=navigation] {
-  left: 57em;
-  top: 5em;
+  left: 325px;
+  top: 181px;
+  width: 74px;
+  height: 46px;
+  zoom: 3.67698;
 }
 
 [data-section=arrow] {
-  left: 57em;
-  top: 15em;
+  left: 326px;
+  top: 230.561px;
+  width: 74px;
+  height: 47px;
+  zoom: 3.67127;
 }
 
 [data-section=numpad] {
-  left: 72em;
-  top: 5em;
+  left: 394px;
+  top: 145px;
+  width: 95px;
+  height: 115px;
+  zoom: 3.89835;
 }
 
 /* Mouse visualizer */
@@ -155,8 +172,9 @@ body * {
 
   width: 11em;
   height: 15em;
-  left: 91em;
-  top: 5em;
+  left: 371px;
+  top: 15px;
+  zoom: 4.23041;
 }
 
 #mouse_left,

@@ -15,16 +15,25 @@
   </head>
   <body>
     <xui-section label="Show/Hide keys">
-      <xui-checkbox id="mouse"><label>Mouse</label></xui-checkbox><br>
-      <xui-checkbox id="keyboard"><label>Keyboard</xui-checkbox><br>
+      <label class="desc">The Keyboard/Mouse Visualizer mimics every key and mouse press that you make.<span class="generalInfo">?</span>
+      <div id='generalInfo'>- Drag each item on the stage to change the position.<p>- Resize each item by positioning your mouse on the corner, then click and drag</p>
+      </div>
+      <br>
+      </label>
+      <xui-checkbox id="mouse"><label>Mouse</label></xui-checkbox>
+      <br>
+      <xui-checkbox id="keyboard"><label>Keyboard</label></xui-checkbox>
+      <span class="info">?</span>
+      <div id='keyInfo'>Check/Uncheck Keyboard to show/hide all the sub-items under keyboard.</div>
+      <br>
       &nbsp;&nbsp;<xui-checkbox id="function"><label>Function</label></xui-checkbox><br>
       &nbsp;&nbsp;<xui-checkbox id="alpha"><label>Alphanumeric</label></xui-checkbox><br>
       &nbsp;&nbsp;<xui-checkbox id="system"><label>System</label></xui-checkbox><br>
       &nbsp;&nbsp;<xui-checkbox id="nav"><label>Navigation</label></xui-checkbox><br>
       &nbsp;&nbsp;<xui-checkbox id="arrow"><label>Arrow keys</label></xui-checkbox><br>
-      &nbsp;&nbsp;<xui-checkbox id="numpad"><label>Numpad</label></xui-checkbox><br>
+      &nbsp;&nbsp;<xui-checkbox id="numpad"><label>Numpad</label></xui-checkbox><br><br>
     </xui-section>
-
+    <p>(Please grant access for the extension to execute scripts. Refresh the plugin after granting permission.)</p>
     <script src="bower_components/xjs-framework/dist/xjs.js"></script>
     <script src="js/config.js"></script>
   </body>
