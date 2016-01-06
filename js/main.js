@@ -295,9 +295,7 @@
 
   // jQuery UI interactions
   var initPositionX;
-  var initPosXHolder;
   var initPositionY;
-  var initPosYHolder;
   var initPointerX;
   var initPointerY;
   var initZoom;
@@ -307,6 +305,7 @@
 
 
   $('[data-section]').draggable({
+    containment: 'window',
     start: function(event, ui) {
       //SET INITIAL POSITION HERE-------------
       initPositionX = ui.position.left;
@@ -401,54 +400,34 @@
       axis = $(ui.element).data('ui-resizable').axis;
     },
     resize: function(event, ui) {
+
       // ui.element is data section
       var $element = ui.element;
 
-      // Get mouse position 
-      var  mouseX = event.pageX;
-      var  mouseY = event.pageY;
+      //disable interaction if element is at maximum width
+      if ($element.width() >= ($(window).width() + 2)) {
+        $(this).resizable('widget').trigger('mouseup');
+        var overlapX = $element.width() - ($(window).width() + 2);
+        $element.css('width', $element.width() - overlapX);
+      }
+
+      //disable interaction if element is at maximum height
+      if ($element.height() >= ($(window).height() + 2)) {
+        $(this).resizable('widget').trigger('mouseup');
+        var overlapY = $element.height() - ($(window).height() + 2);
+        $element.css('height', $element.height() - overlapY);
+      }
 
       var theHeight = parseInt($element.css('height'));
-      // Disallow interactions beyond screen bounds
-      if (mouseX < 0) {
-        mouseX = 0;
-        mouseY = 0;
-      }
-      if (mouseX > $(window).width()) {
-        mouseX = $(window).width();
-       }
-      if (mouseY < 0) {
-        mouseY = 0;
-        mouseX = 0;
-      }
-      if (mouseY > $(window).height()) {
-        mouseY = $(window).height();
-       }
 
-      // get correct new zoom based on axis
-      var newZoom = 0;
-      if (axis.indexOf('w') === -1) {
-          newZoom = Math.max(newZoom, (mouseX - initZoom *
-            ui.originalPosition.left) / ui.originalSize.width);
-      } else if (axis.indexOf('e') === -1) {
-          newZoom = Math.max(newZoom, (initZoom * (ui.originalSize.width + 
-            initPositionX) - mouseX) / ui.originalSize.width);
-      }
-
-      if (axis.indexOf('n') === -1) {
-          newZoom = Math.max(newZoom, (mouseY - initZoom *
-            ui.originalPosition.top) / ui.originalSize.height);
-      } else if (axis.indexOf('s') === -1) {
-          newZoom = Math.max(newZoom, (initZoom * (ui.originalSize.height + 
-            initPositionY) - mouseY) / ui.originalSize.height);
-      }
-      // enforce zoom boundaries
-      // Check: minimum zoom level
-      if (newZoom < 1 ) {
-        newZoom = 1;
-      }
       if (parseInt($element.css('top')) < 0) {
         ui.position.top = 0;
+        $(this).resizable('widget').trigger('mouseup');
+      }
+
+      if (parseInt($element.css('left')) < 0) {
+        ui.position.left = 0;
+        $(this).resizable('widget').trigger('mouseup');
       }
 
       if ($element.is('#mouse')) {
@@ -471,12 +450,34 @@
         $element.css('font-size', (theHeight * 0.045) + 'px');
       }
 
-      if (($element.width() + initPositionX + 5) > $(window).width()) {
-        $(this).resizable('widget').trigger('mouseup');
+      if (($element.width() + ui.position.left - 5) > $(window).width()) {
+
+        if (ui.position.left <= 0) {
+          $(this).resizable('widget').trigger('mouseup');
+        }
+
+        var extendX = (ui.position.left + $element.width()) - $(window).width();
+        ui.position.left = ui.position.left - (extendX);
       }
 
-      if (($element.height() + initPositionY + 5) > $(window).height()) {
-        $(this).resizable('widget').trigger('mouseup');
+      if (($element.height() + ui.position.top - 5) > $(window).height()) {
+        if (ui.position.top <= 0) {
+          $(this).resizable('widget').trigger('mouseup');
+        }
+        var extendY = (ui.position.top + $element.height()) - $(window).height();
+        ui.position.top = ui.position.top - extendY;
+
+        // $(this).resizable('widget').trigger('mouseup');
+        /*
+        if (axis === 'e') {
+          $(ui.element).data('ui-resizable').axis = 'ne';
+        }
+
+        if (axis === 'w') {
+          $(ui.element).data('ui-resizable').axis = 'nw';
+          axis = 'nw';
+        } */
+
       }
 
     }
@@ -511,43 +512,49 @@
 
     var receiveData = function(config){
       for (var i in config) {
-        if (sections[i] !== undefined) {
-          if (config[i] === false) {
-            sections[i].addClass('hidden');
-          } else {
-            sections[i].removeClass('hidden');
+          if (sections[i] !== undefined) {
+            if (config[i] === false) {
+              sections[i].addClass('hidden');
+            } else {
+              sections[i].removeClass('hidden');
+            }
           }
-        }
       }
 
+      sections.mouse.css('border-color', config.bordercolor);
+      $('#mouse_left').css('border-color', config.bordercolor);
+      $('#mouse_middle').css('border-color', config.bordercolor);
+      $('#mouse_right').css('border-color', config.bordercolor);
+      $('.key').css('border-color', config.bordercolor);
+
       //SET Positions
-      sections.mouse.css('zoom',config.mouseZoom)
-      sections.mouse.css('top',config.mouseXpos)
-      sections.mouse.css('left',config.mouseYpos)
+      sections.mouse.css('zoom',config.mouseZoom);
+      sections.mouse.css('top',config.mouseXpos);
+      sections.mouse.css('left',config.mouseYpos);
 
-      sections.numpad.css('zoom',config.numpadZoom)
-      sections.numpad.css('top',config.numpadXpos)
-      sections.numpad.css('left',config.numpadYpos)
+      sections.numpad.css('zoom',config.numpadZoom);
+      sections.numpad.css('top',config.numpadXpos);
+      sections.numpad.css('left',config.numpadYpos);
 
-      sections.func.css('zoom',config.funcZoom)
-      sections.func.css('top',config.funcXpos)
-      sections.func.css('left',config.funcYpos)
+      sections.func.css('zoom',config.funcZoom);
+      sections.func.css('top',config.funcXpos);
+      sections.func.css('left',config.funcYpos);
 
-      sections.alpha.css('zoom',config.alphaZoom)
-      sections.alpha.css('top',config.alphaXpos)
-      sections.alpha.css('left',config.alphaYpos)
+      sections.alpha.css('zoom',config.alphaZoom);
+      sections.alpha.css('top',config.alphaXpos);
+      sections.alpha.css('left',config.alphaYpos);
 
-      sections.system.css('zoom',config.systemZoom)
-      sections.system.css('top',config.systemXpos)
-      sections.system.css('left',config.systemYpos)
+      sections.system.css('zoom',config.systemZoom);
+      sections.system.css('top',config.systemXpos);
+      sections.system.css('left',config.systemYpos);
 
-      sections.nav.css('zoom',config.navZoom)
-      sections.nav.css('top',config.navXpos)
-      sections.nav.css('left',config.navYpos)
+      sections.nav.css('zoom',config.navZoom);
+      sections.nav.css('top',config.navXpos);
+      sections.nav.css('left',config.navYpos);
 
-      sections.arrow.css('zoom',config.arrowZoom)
-      sections.arrow.css('top',config.arrowXpos)
-      sections.arrow.css('left',config.arrowYpos)
+      sections.arrow.css('zoom',config.arrowZoom);
+      sections.arrow.css('top',config.arrowXpos);
+      sections.arrow.css('left',config.arrowYpos);
 
       //Transfer position data back to obj for it to be saved
       tempConfig.mouseXpos = config.mouseXpos;
@@ -595,7 +602,8 @@
     };
 
     //Apply config on Load
-    item.loadConfig().then(receiveData);
+  item.loadConfig().then(receiveData);
+
 
     //Update and Save config with new coordinates or sizes every mouse-up
     allKey.addEventListener('mouseup',function (){
@@ -615,6 +623,13 @@
             }
           }
         }
+
+        sections.mouse.css('border-color', config.bordercolor);
+        $('#mouse_left').css('border-color', config.bordercolor);
+        $('#mouse_middle').css('border-color', config.bordercolor);
+        $('#mouse_right').css('border-color', config.bordercolor);
+        $('.key').css('border-color', config.bordercolor);
+
         updateData(config);
     });
 
