@@ -9,7 +9,8 @@
   var temp = true;
 
   var closeBtn = document.getElementById('done');
-
+  var selectBorderColor = document.getElementById('bordercolor');
+  var borderColor = document.getElementById('bordercolor').getAttribute('value');
   var elements = {
     func     : document.getElementById('function'),
     alpha    : document.getElementById('alpha'),
@@ -91,6 +92,8 @@
   };
 
   var updateConfig = function(item) {
+    var borderColor = document.getElementById('bordercolor').getAttribute('value');
+    
     var config = {
       func    : elements.func.checked,
       alpha   : elements.alpha.checked,
@@ -99,7 +102,8 @@
       arrow   : elements.arrow.checked,
       numpad  : elements.numpad.checked,
       mouse   : elements.mouse.checked,
-      keyboard   : elements.keyboard.checked,
+      keyboard: elements.keyboard.checked,
+      bordercolor   : borderColor,
     };
     updateElements(config);
     item.requestSaveConfig(config);
@@ -116,9 +120,14 @@
     return Item.getCurrentSource();
   }).then(function(myItem) {
     currentSource = myItem;
+
+    selectBorderColor.addEventListener('click', function(event) {
+      myItem.requestSaveConfig({ 'bordercolor': selectBorderColor.value });
+      updateConfig(currentSource);
+    });
+
     return currentSource.loadConfig();
   }).then(function(config) {
-    
     // load last saved configuration
     // initialize to Show if no configuration set yet
     config = {
@@ -130,7 +139,9 @@
       numpad  : config.numpad !== undefined ? config.numpad : true,
       mouse   : config.mouse !== undefined ? config.mouse : true,
       keyboard   : config.keyboard !== undefined ? config.keyboard : true,
+      bordercolor   : config.bordercolor !== undefined ? config.bordercolor : '#FFFFFF',
     };
+    selectBorderColor.value = config.bordercolor;
 
     updateElements(config);
 
