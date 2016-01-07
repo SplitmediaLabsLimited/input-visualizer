@@ -295,9 +295,7 @@
 
   // jQuery UI interactions
   var initPositionX;
-  var initPosXHolder;
   var initPositionY;
-  var initPosYHolder;
   var initPointerX;
   var initPointerY;
   var initZoom;
@@ -307,6 +305,7 @@
 
 
   $('[data-section]').draggable({
+    containment: 'window',
     start: function(event, ui) {
       //SET INITIAL POSITION HERE-------------
       initPositionX = ui.position.left;
@@ -390,7 +389,7 @@
     handles: 'all',
     minWidth: 50,
     start: function(event, ui) {
-      initZoom = $(this).css('zoom');
+      initZoom = $(this).attr('data-zoom');
       initPositionX = ui.position.left;
       initPositionY = ui.position.top;
       initPointerX = event.pageX;
@@ -401,140 +400,86 @@
       axis = $(ui.element).data('ui-resizable').axis;
     },
     resize: function(event, ui) {
+
       // ui.element is data section
       var $element = ui.element;
 
-      // Get mouse position 
-      var  mouseX = event.pageX;
-      var  mouseY = event.pageY;
-      // Disallow interactions beyond screen bounds
-      if (mouseX < 0) {
-        mouseX = 0;
-        mouseY = 0;
-      }
-      if (mouseX > $(window).width()) {
-        mouseX = $(window).width();
-       }
-      if (mouseY < 0) {
-        mouseY = 0;
-        mouseX = 0;
-      }
-      if (mouseY > $(window).height()) {
-        console.log($(window).height());
-        mouseY = $(window).height();
-       }
-
-      // get correct new zoom based on axis
-      var newZoom = 0;
-      if (axis.indexOf('w') === -1) {
-          newZoom = Math.max(newZoom, (mouseX - initZoom *
-            ui.originalPosition.left) / ui.originalSize.width);
-      } else if (axis.indexOf('e') === -1) {
-          newZoom = Math.max(newZoom, (initZoom * (ui.originalSize.width + 
-            initPositionX) - mouseX) / ui.originalSize.width);
+      //disable interaction if element is at maximum width
+      if ($element.width() >= ($(window).width() + 2)) {
+        $(this).resizable('widget').trigger('mouseup');
+        var overlapX = $element.width() - ($(window).width() + 2);
+        $element.css('width', $element.width() - overlapX);
       }
 
-      if (axis.indexOf('n') === -1) {
-          newZoom = Math.max(newZoom, (mouseY - initZoom *
-            ui.originalPosition.top) / ui.originalSize.height);
-      } else if (axis.indexOf('s') === -1) {
-          newZoom = Math.max(newZoom, (initZoom * (ui.originalSize.height + 
-            initPositionY) - mouseY) / ui.originalSize.height);
-      }
-      // enforce zoom boundaries
-      // Check: minimum zoom level
-      if (newZoom < 1 ) {
-        newZoom = 1;
-      }
-      // Check: resizing must not exceed boundaries
-
-      // get ratio after all zoom checks are done.
-      var zoomChangeRatio = newZoom / initZoom;
-      
-      // get ui.originalPosition
-      // get ui.position
-      // apply ratio to ui.position -> new position = old(left,top) / ratio
-      if (axis.indexOf('w') === -1) {
-        ui.position.left = ui.originalPosition.left / zoomChangeRatio;
-      } else if (axis.indexOf('e') === -1) {
-        if (ui.position.left > initPositionX && newZoom === 1) {
-          ui.position.left = stopX;
-        } else {
-          ui.position.left = mouseX / newZoom;
-          stopX = mouseX;
-        }
+      //disable interaction if element is at maximum height
+      if ($element.height() >= ($(window).height() + 2)) {
+        $(this).resizable('widget').trigger('mouseup');
+        var overlapY = $element.height() - ($(window).height() + 2);
+        $element.css('height', $element.height() - overlapY);
       }
 
-      if (axis.indexOf('n') === -1) {
-        ui.position.top = ui.originalPosition.top / zoomChangeRatio;
-      } else if (axis.indexOf('s') === -1) {
-        if (ui.position.top > initPositionY && newZoom === 1) {
-          ui.position.top = stopY;
-        } else {
-          ui.position.top = mouseY / newZoom;
-          stopY = mouseY;
-        }
+      var theHeight = parseInt($element.css('height'));
+
+      if (parseInt($element.css('top')) < 0) {
+        ui.position.top = 0;
+        $(this).resizable('widget').trigger('mouseup');
       }
-      
-      // maintain size: ui.size = ui.originalSize
-      ui.size.width = ui.originalSize.width;
-      ui.size.height = ui.originalSize.height;
-      // workaround for mouse, as jquery uses px dimensions by default
+
+      if (parseInt($element.css('left')) < 0) {
+        ui.position.left = 0;
+        $(this).resizable('widget').trigger('mouseup');
+      }
+
       if ($element.is('#mouse')) {
-        $element.css('width', '').css('height', '');
-        ui.size.width = '';
-        ui.size.height = '';
+        $element.css('font-size', (theHeight * 0.06) + 'px');
       }
-      // apply ratio to zoom
-      $element.css('zoom', newZoom);
 
-      //Save new zoom per ui item
-        whichItem = ui.helper.context.id;
-        if(whichItem === 'mouse'){
-          tempConfig.mouseZoom = newZoom;
-          tempConfig.mouseXpos = ui.position.top;
-          tempConfig.mouseYpos = ui.position.left;
+      if ($element.is('#scroll')) {
+        $element.css('font-size', (theHeight * 0.19) + 'px');
+      }
+
+      if ($element.is('#function')) {
+        $element.css('font-size', (theHeight * 0.25) + 'px');
+      }
+
+      if ($element.is('#navigation') || $element.is('#arrow')) {
+        $element.css('font-size', (theHeight * 0.12) + 'px');
+      }
+
+      if ($element.is('#numpad') || $element.is('#alpha')) {
+        $element.css('font-size', (theHeight * 0.045) + 'px');
+      }
+
+      if (($element.width() + ui.position.left - 5) > $(window).width()) {
+
+        if (ui.position.left <= 0) {
+          $(this).resizable('widget').trigger('mouseup');
         }
 
-        if(whichItem === 'numpad'){
-          tempConfig.numpadZoom = newZoom;
-          tempConfig.numpadXpos = ui.position.top;
-          tempConfig.numpadYpos = ui.position.left;
-        }
-        
-        if(whichItem === 'function'){
-          tempConfig.funcZoom = newZoom;
-          tempConfig.funcXpos = ui.position.top;
-          tempConfig.funcYpos = ui.position.left;
-        }
+        var extendX = (ui.position.left + $element.width()) - $(window).width();
+        ui.position.left = ui.position.left - (extendX);
+      }
 
-        if(whichItem === 'alpha'){
-          tempConfig.alphaZoom = newZoom;
-          tempConfig.alphaXpos = ui.position.top;
-          tempConfig.alphaYpos = ui.position.left;
+      if (($element.height() + ui.position.top - 5) > $(window).height()) {
+        if (ui.position.top <= 0) {
+          $(this).resizable('widget').trigger('mouseup');
+        }
+        var extendY = (ui.position.top + $element.height()) - $(window).height();
+        ui.position.top = ui.position.top - extendY;
 
+        // $(this).resizable('widget').trigger('mouseup');
+        /*
+        if (axis === 'e') {
+          $(ui.element).data('ui-resizable').axis = 'ne';
         }
 
-        if(whichItem === 'scroll'){
-          tempConfig.systemZoom = newZoom;
-          tempConfig.systemXpos = ui.position.top;
-          tempConfig.systemYpos = ui.position.left;
-        }
+        if (axis === 'w') {
+          $(ui.element).data('ui-resizable').axis = 'nw';
+          axis = 'nw';
+        } */
 
-        if(whichItem === 'navigation'){
-          tempConfig.navZoom = newZoom;
-          tempConfig.navXpos = ui.position.top;
-          tempConfig.navYpos = ui.position.left;
-        }
+      }
 
-        if(whichItem === 'arrow'){
-          tempConfig.arrowZoom = newZoom;
-          tempConfig.arrowXpos = ui.position.top;
-          tempConfig.arrowYpos = ui.position.left;
-        }
-
-      // zoom out resizer handles so they will be the same size for all zooms
-      $element.children('.ui-resizable-handle').css('zoom', 1 / newZoom);
     }
   });
 
@@ -567,43 +512,62 @@
 
     var receiveData = function(config){
       for (var i in config) {
-        if (sections[i] !== undefined) {
-          if (config[i] === false) {
-            sections[i].addClass('hidden');
-          } else {
-            sections[i].removeClass('hidden');
+          if (sections[i] !== undefined) {
+            if (config[i] === false) {
+              sections[i].addClass('hidden');
+            } else {
+              sections[i].removeClass('hidden');
+            }
           }
-        }
       }
 
+      $('#customCSS').remove();
+      var hexvalg = hexToRgb(config.glowcolor).g;
+      var hexvalr = hexToRgb(config.glowcolor).r;
+      var hexvalb = hexToRgb(config.glowcolor).b;
+      // $('.glow.activated').css('background', 'radial-gradient(rgba(' + hexvalr +
+      //  ', ' + hexvalg + ', ' + hexvalb + ', .5) 5%, rgba(255, 255, 255, 0) 50%);');
+      $('head').append('<style id="customCSS"> ' +
+        '.glow.activated { ' + 
+          'background: radial-gradient(rgba(' + hexvalr +
+       ', ' + hexvalg + ', ' + hexvalb + ', .8) 5%,' + 
+          'rgba(255, 255, 255, 0) 60%); }' +
+        '</style>');
+      // $('.activated').css('background', 'radial-gradient(#7F' + hexval + ' 5%, rgba(255, 255, 255, 0) 50%);');
+      sections.mouse.css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
+      $('#mouse_left').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
+      $('#mouse_middle').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
+      $('#mouse_right').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
+      $('.key').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
+
       //SET Positions
-      sections.mouse.css('zoom',config.mouseZoom)
-      sections.mouse.css('top',config.mouseXpos)
-      sections.mouse.css('left',config.mouseYpos)
+      sections.mouse.css('zoom',config.mouseZoom);
+      sections.mouse.css('top',config.mouseXpos);
+      sections.mouse.css('left',config.mouseYpos);
 
-      sections.numpad.css('zoom',config.numpadZoom)
-      sections.numpad.css('top',config.numpadXpos)
-      sections.numpad.css('left',config.numpadYpos)
+      sections.numpad.css('zoom',config.numpadZoom);
+      sections.numpad.css('top',config.numpadXpos);
+      sections.numpad.css('left',config.numpadYpos);
 
-      sections.func.css('zoom',config.funcZoom)
-      sections.func.css('top',config.funcXpos)
-      sections.func.css('left',config.funcYpos)
+      sections.func.css('zoom',config.funcZoom);
+      sections.func.css('top',config.funcXpos);
+      sections.func.css('left',config.funcYpos);
 
-      sections.alpha.css('zoom',config.alphaZoom)
-      sections.alpha.css('top',config.alphaXpos)
-      sections.alpha.css('left',config.alphaYpos)
+      sections.alpha.css('zoom',config.alphaZoom);
+      sections.alpha.css('top',config.alphaXpos);
+      sections.alpha.css('left',config.alphaYpos);
 
-      sections.system.css('zoom',config.systemZoom)
-      sections.system.css('top',config.systemXpos)
-      sections.system.css('left',config.systemYpos)
+      sections.system.css('zoom',config.systemZoom);
+      sections.system.css('top',config.systemXpos);
+      sections.system.css('left',config.systemYpos);
 
-      sections.nav.css('zoom',config.navZoom)
-      sections.nav.css('top',config.navXpos)
-      sections.nav.css('left',config.navYpos)
+      sections.nav.css('zoom',config.navZoom);
+      sections.nav.css('top',config.navXpos);
+      sections.nav.css('left',config.navYpos);
 
-      sections.arrow.css('zoom',config.arrowZoom)
-      sections.arrow.css('top',config.arrowXpos)
-      sections.arrow.css('left',config.arrowYpos)
+      sections.arrow.css('zoom',config.arrowZoom);
+      sections.arrow.css('top',config.arrowXpos);
+      sections.arrow.css('left',config.arrowYpos);
 
       //Transfer position data back to obj for it to be saved
       tempConfig.mouseXpos = config.mouseXpos;
@@ -651,7 +615,8 @@
     };
 
     //Apply config on Load
-    item.loadConfig().then(receiveData);
+  item.loadConfig().then(receiveData);
+
 
     //Update and Save config with new coordinates or sizes every mouse-up
     allKey.addEventListener('mouseup',function (){
@@ -671,6 +636,25 @@
             }
           }
         }
+
+      $('#customCSS').remove();
+      var hexvalg = hexToRgb(config.glowcolor).g;
+      var hexvalr = hexToRgb(config.glowcolor).r;
+      var hexvalb = hexToRgb(config.glowcolor).b;
+      // $('.glow.activated').css('background', 'radial-gradient(rgba(' + hexvalr +
+      //  ', ' + hexvalg + ', ' + hexvalb + ', .5) 5%, rgba(255, 255, 255, 0) 50%);');
+      $('head').append('<style id="customCSS"> ' +
+        '.glow.activated { ' + 
+          'background: radial-gradient(rgba(' + hexvalr +
+       ', ' + hexvalg + ', ' + hexvalb + ', .8) 5%,' + 
+          'rgba(255, 255, 255, 0) 60%); }' +
+        '</style>');
+        sections.mouse.css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px ' + config.bordercolor});
+        $('#mouse_left').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
+        $('#mouse_middle').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
+        $('#mouse_right').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
+        $('.key').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
+
         updateData(config);
     });
 
@@ -679,5 +663,21 @@
       for (var i in tempConfig){config[i] = tempConfig[i]}
       item.saveConfig(config);
     }
+
+    function hexToRgb(hex) {
+      // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+      var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+      hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+          return r + r + g + g + b + b;
+      });
+
+      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+      } : null;
+    }
   });
 })();
+
