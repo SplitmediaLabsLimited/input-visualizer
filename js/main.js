@@ -521,11 +521,24 @@
           }
       }
 
-      sections.mouse.css('border-color', config.bordercolor);
-      $('#mouse_left').css('border-color', config.bordercolor);
-      $('#mouse_middle').css('border-color', config.bordercolor);
-      $('#mouse_right').css('border-color', config.bordercolor);
-      $('.key').css('border-color', config.bordercolor);
+      $('#customCSS').remove();
+      var hexvalg = hexToRgb(config.glowcolor).g;
+      var hexvalr = hexToRgb(config.glowcolor).r;
+      var hexvalb = hexToRgb(config.glowcolor).b;
+      // $('.glow.activated').css('background', 'radial-gradient(rgba(' + hexvalr +
+      //  ', ' + hexvalg + ', ' + hexvalb + ', .5) 5%, rgba(255, 255, 255, 0) 50%);');
+      $('head').append('<style id="customCSS"> ' +
+        '.glow.activated { ' + 
+          'background: radial-gradient(rgba(' + hexvalr +
+       ', ' + hexvalg + ', ' + hexvalb + ', .8) 5%,' + 
+          'rgba(255, 255, 255, 0) 60%); }' +
+        '</style>');
+      // $('.activated').css('background', 'radial-gradient(#7F' + hexval + ' 5%, rgba(255, 255, 255, 0) 50%);');
+      sections.mouse.css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
+      $('#mouse_left').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
+      $('#mouse_middle').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
+      $('#mouse_right').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
+      $('.key').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
 
       //SET Positions
       sections.mouse.css('zoom',config.mouseZoom);
@@ -624,11 +637,23 @@
           }
         }
 
-        sections.mouse.css('border-color', config.bordercolor);
-        $('#mouse_left').css('border-color', config.bordercolor);
-        $('#mouse_middle').css('border-color', config.bordercolor);
-        $('#mouse_right').css('border-color', config.bordercolor);
-        $('.key').css('border-color', config.bordercolor);
+      $('#customCSS').remove();
+      var hexvalg = hexToRgb(config.glowcolor).g;
+      var hexvalr = hexToRgb(config.glowcolor).r;
+      var hexvalb = hexToRgb(config.glowcolor).b;
+      // $('.glow.activated').css('background', 'radial-gradient(rgba(' + hexvalr +
+      //  ', ' + hexvalg + ', ' + hexvalb + ', .5) 5%, rgba(255, 255, 255, 0) 50%);');
+      $('head').append('<style id="customCSS"> ' +
+        '.glow.activated { ' + 
+          'background: radial-gradient(rgba(' + hexvalr +
+       ', ' + hexvalg + ', ' + hexvalb + ', .8) 5%,' + 
+          'rgba(255, 255, 255, 0) 60%); }' +
+        '</style>');
+        sections.mouse.css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px ' + config.bordercolor});
+        $('#mouse_left').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
+        $('#mouse_middle').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
+        $('#mouse_right').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
+        $('.key').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
 
         updateData(config);
     });
@@ -638,5 +663,21 @@
       for (var i in tempConfig){config[i] = tempConfig[i]}
       item.saveConfig(config);
     }
+
+    function hexToRgb(hex) {
+      // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+      var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+      hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+          return r + r + g + g + b + b;
+      });
+
+      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+      } : null;
+    }
   });
 })();
+

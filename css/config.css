@@ -67,3 +67,23 @@ span.generalInfo:hover ~ #generalInfo{
   border: 1px solid #888;
 }
 
+.checkelements {
+  width: 100%;
+  display: inline-flex;
+  padding: 5px 0 5px 0; 
+}
+
+.elementcontainer {
+  width: 50%;
+  display: block;
+}
+
+#glowcolor {
+  position: relative;
+  left: 10px;
+}
+
+#bordercolor {
+  position: relative;
+  left: 2px;
+}

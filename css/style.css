@@ -1,7 +1,7 @@
 html, body {
   width: 100%;
   height: 100%;
-  background-color: #8D8D8D;
+  /*background-color: #8D8D8D;*/
 }
 
 body {
@@ -26,9 +26,7 @@ body * {
 }
 
 .glow.activated {
-  background-image: url('../assets/gradient.png');
-  background-position: center; 
-  background-size: 100% 100%;
+  background: radial-gradient(rgba(255, 255, 255, 5) 5%, rgba(255, 255, 255, 0) 50%);
 }
 
 /* Keyboard visualizer styles start here.
@@ -54,6 +52,7 @@ body * {
   background: rgba(0, 0, 0, 0.2);
   border: 0.18em solid rgba(255, 255, 255, 1);
   border-radius: 0.7em;
+  box-shadow: 0 0 5px #fff;
   
   display: inline-flex;
   align-items: center;
@@ -202,6 +201,7 @@ body * {
   position: relative;
   border: 0.25em solid white;
   border-radius: 25%;
+  box-shadow: 0 0 5px #fff;
   white-space: nowrap;
 
   width: 179.787px;
@@ -215,6 +215,7 @@ body * {
 #mouse_right {
   height: 60%;
   border-bottom: .25em solid white;
+  box-shadow: 0 5px 5px -5px #fff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -235,6 +236,7 @@ body * {
 #mouse_middle {
   position: absolute;
   border: .25em solid white;
+  box-shadow: 0 0 5px #fff;
   width: 16%;
   height: 45%;
 
