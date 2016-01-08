@@ -511,6 +511,8 @@
     };
 
     var receiveData = function(config){
+      var opacVal = config.opacity / 100;
+      console.log(opacVal);
       for (var i in config) {
           if (sections[i] !== undefined) {
             if (config[i] === false) {
@@ -518,6 +520,11 @@
             } else {
               sections[i].removeClass('hidden');
             }
+          }
+          try {
+            sections[i].css('opacity', opacVal);
+          } catch(e) {
+
           }
       }
 
@@ -626,6 +633,8 @@
 
     //Apply config on Save
     xjs.SourcePluginWindow.getInstance().on('save-config', function(config) {
+      var opacVal = config.opacity / 100;
+      console.log(opacVal);
       // apply configuration
       for (var i in config) {
         if (sections[i] !== undefined) {
@@ -634,6 +643,11 @@
           } else {
             sections[i].removeClass('hidden');
             }
+          }          
+          try {
+            sections[i].css('opacity', opacVal);
+          } catch(e) {
+            
           }
         }
 

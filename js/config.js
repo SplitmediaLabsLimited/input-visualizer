@@ -11,6 +11,7 @@
   var closeBtn = document.getElementById('done');
   var selectBorderColor = document.getElementById('bordercolor');
   var selectGlowColor = document.getElementById('glowcolor');
+  var opacitySlider = document.getElementById('opacitySlider');
   var elements = {
     func     : document.getElementById('function'),
     alpha    : document.getElementById('alpha'),
@@ -94,6 +95,7 @@
   var updateConfig = function(item) {
     var borderColor = document.getElementById('bordercolor').getAttribute('value');
     var glowColor = document.getElementById('glowcolor').getAttribute('value');
+    var opacityValue = document.getElementById('opacitySlider').getAttribute('value');
     
     var config = {
       func    : elements.func.checked,
@@ -106,6 +108,7 @@
       keyboard: elements.keyboard.checked,
       bordercolor   : borderColor,
       glowcolor   : glowColor,
+      opacity   : opacityValue,
     };
     updateElements(config);
     item.requestSaveConfig(config);
@@ -123,14 +126,47 @@
   }).then(function(myItem) {
     currentSource = myItem;
 
-    selectBorderColor.addEventListener('click', function(event) {
+    function changeBorderColor() {
       myItem.requestSaveConfig({ 'bordercolor': selectBorderColor.value });
       updateConfig(currentSource);
+    }
+
+    function changeGlowColor() {
+      myItem.requestSaveConfig({ 'glowcolor': selectGlowColor.value });
+      updateConfig(currentSource);
+    }
+
+    function changeOpacity() {
+      myItem.requestSaveConfig({ 'opacity': opacitySlider.value });
+      updateConfig(currentSource);
+    }
+
+    selectBorderColor.addEventListener('click', function(event) {
+      changeBorderColor();
+    });
+
+    selectBorderColor.addEventListener('keypress', function(event) {
+      if (event.keyCode === 13) {
+        changeBorderColor();
+      }
     });
 
     selectGlowColor.addEventListener('click', function(event) {
-      myItem.requestSaveConfig({ 'glowcolor': selectGlowColor.value });
-      updateConfig(currentSource);
+      changeGlowColor();
+    });
+
+    selectGlowColor.addEventListener('keypress', function(event) {
+      if (event.keyCode === 13) {
+        changeGlowColor();
+      }
+    });
+
+    opacitySlider.addEventListener('click', function(event) {
+      changeOpacity();
+    });
+
+    opacitySlider.addEventListener('mouseup', function(event) {
+      changeOpacity();
     });
 
     return currentSource.loadConfig();
@@ -148,9 +184,11 @@
       keyboard   : config.keyboard !== undefined ? config.keyboard : true,
       bordercolor   : config.bordercolor !== undefined ? config.bordercolor : '#FFFFFF',
       glowcolor   : config.glowcolor !== undefined ? config.glowcolor : '#FFFFFF',
+      opacity   : config.opacity !== undefined ? config.opacity : 1,
     };
     selectBorderColor.value = config.bordercolor;
     selectGlowColor.value = config.glowcolor;
+    opacitySlider.value = config.opacity;
 
     updateElements(config);
 
