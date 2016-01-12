@@ -1,6 +1,6 @@
 {
   "name": "xjs-framework",
-  "version": "0.8.0",
+  "version": "0.10.0",
   "homepage": "https://github.com/xjsframework/xjs",
   "authors": [
     "xjs@splitmedialabs.com"
@@ -26,11 +26,11 @@
     "*.*",
     ".*"
   ],
-  "_release": "0.8.0",
+  "_release": "0.10.0",
   "_resolution": {
     "type": "version",
-    "tag": "0.8.0",
-    "commit": "cc6c07243de986774d632d2e300212be438b562a"
+    "tag": "0.10.0",
+    "commit": "3b1504c9049bbfa0223002594256da697b42a03d"
   },
   "_source": "git://github.com/xjsframework/xjs.git",
   "_target": "*",
