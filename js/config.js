@@ -184,7 +184,7 @@
       keyboard   : config.keyboard !== undefined ? config.keyboard : true,
       bordercolor   : config.bordercolor !== undefined ? config.bordercolor : '#FFFFFF',
       glowcolor   : config.glowcolor !== undefined ? config.glowcolor : '#FFFFFF',
-      opacity   : config.opacity !== undefined ? config.opacity : 1,
+      opacity   : config.opacity !== undefined ? config.opacity : 100,
     };
     selectBorderColor.value = config.bordercolor;
     selectGlowColor.value = config.glowcolor;

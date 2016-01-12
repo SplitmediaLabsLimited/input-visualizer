@@ -20,6 +20,7 @@
    */
   var xjs = require('xjs');
   var Item = xjs.Item;
+  var dll = xjs.Dll;
   var Rectangle = xjs.Rectangle;
   var tempConfig = {
 
@@ -202,9 +203,17 @@
     }
 
     // TODO: finalize general method to use DLLs
-    window.external.LoadDll('Scriptdlls\\SplitMediaLabs\\XjsEx.dll');
-    window.external.CallDllEx('xsplit.HookSubscribe');
+    dll.load(['Scriptdlls\\SplitMediaLabs\\XjsEx.dll']);
+    dll.callEx('xsplit.HookSubscribe');
     window.OnDllOnInputHookEvent = this.readHookEvent.bind(this);
+
+      dll.on('access-granted', function() {
+        location.reload();
+      });
+
+      dll.on('access-granted', function() {
+        dll.callEx('xsplit.HookUnsubscribe');
+      });
   };
 
   KeystrokeVisualizer.prototype.readHookEvent = function(msg, wparam, lparam) {
@@ -512,7 +521,6 @@
 
     var receiveData = function(config){
       var opacVal = config.opacity / 100;
-      console.log(opacVal);
       for (var i in config) {
           if (sections[i] !== undefined) {
             if (config[i] === false) {
@@ -634,7 +642,6 @@
     //Apply config on Save
     xjs.SourcePluginWindow.getInstance().on('save-config', function(config) {
       var opacVal = config.opacity / 100;
-      console.log(opacVal);
       // apply configuration
       for (var i in config) {
         if (sections[i] !== undefined) {
@@ -694,4 +701,3 @@
     }
   });
 })();
-
