@@ -1,7 +1,16 @@
+@font-face {
+  font-family: 'fontello';
+  src: url('../fonts/fontello.ttf?45683775');
+}
+
+@font-face {
+  font-family: 'wingdings3';
+  src: url('../fonts/wingdings3.ttf');
+}
+
 html, body {
   width: 100%;
   height: 100%;
-  /*background-color: #8D8D8D;*/
 }
 
 body {
@@ -353,4 +362,15 @@ body * {
 .key[code='Down'],
 .key[code='Right'] {
   width: 30%;
+}
+
+.key[code='LCommand'],
+.key[code='RCommand'] {
+  font-family: "fontello";
+  font-weight: normal;
+}
+
+.font_tab {
+  font-family: "wingdings3";
+  margin-left: 5px;
 }
