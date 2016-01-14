@@ -22,11 +22,8 @@
   var Item = xjs.Item;
   var dll = xjs.Dll;
   var Rectangle = xjs.Rectangle;
-  var tempConfig = {
+  var tempConfig = {};
 
-  };
-  var tempXpos;
-  var tempYpos;
   var whichItem = '';
 
   var allKey = document.getElementById('allItems');
@@ -506,7 +503,6 @@
     };
 
     var receiveData = function(config){
-      console.log(config);
       var opacVal = config.opacity / 100;
       for (var i in config) {
           if (sections[i] !== undefined) {
@@ -520,12 +516,14 @@
       }
 
       for (var a in sections) {
-        for (var c in getTempVal(sections[a][0].id)) {
-          elemname = sections[a][0].id + '_' + c;
-         $('#' + sections[a][0].id).css(c, config[elemname]);
-         tempConfig[elemname] = config[elemname];
+        if (sections[a] !== undefined) {
+          for (var c in getTempVal(sections[a][0].id)) {
+            elemname = sections[a][0].id + '_' + c;
+           $('#' + sections[a][0].id).css(c, config[elemname]);
+           tempConfig[elemname] = config[elemname];
+          }
+          adjustFont(sections[a]);
         }
-        adjustFont(sections[a]);
       }
 
       $('#customCSS').remove();
@@ -557,7 +555,6 @@
 
     //Apply config on Save
     xjs.SourcePluginWindow.getInstance().on('save-config', function(config) {
-      console.log(config);
       var opacVal = config.opacity / 100;
       // apply configuration
       for (var i in config) {
@@ -569,15 +566,6 @@
             }
             sections[i].css('opacity', opacVal);
           }
-      }
-
-      for (var c in getTempVal(sections[i][0].id)) {
-        for (var a in sections) {
-          elemname = sections[a][0].id + '_' + c;
-         $('#' + sections[a][0].id).css(c, config[elemname]);
-         tempConfig[elemname] = config[elemname];
-         adjustFont(sections[i]);
-        }
       }
 
       $('#customCSS').remove();
