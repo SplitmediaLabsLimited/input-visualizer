@@ -211,9 +211,9 @@
         location.reload();
       });
 
-      dll.on('access-granted', function() {
-        dll.callEx('xsplit.HookUnsubscribe');
-      });
+      // dll.on('access-granted', function() {
+        // dll.callEx('xsplit.HookUnsubscribe');
+      // });
   };
 
   KeystrokeVisualizer.prototype.readHookEvent = function(msg, wparam, lparam) {
@@ -311,7 +311,40 @@
   var axis;
   var stopY;
   var stopX;
+  var elemname;
 
+  function getTempVal(elem) {
+    return {
+      height: $('#' + elem).css('height'),
+      width: $('#' + elem).css('width'),
+      top: $('#' + elem).css('top'),
+      left: $('#' + elem).css('left')
+    }
+  }
+
+  function adjustFont($element) {
+    var theHeight = parseInt($element.css('height'));
+
+    if ($element.is('#mouse')) {
+      $element.css('font-size', (theHeight * 0.06) + 'px');
+    }
+
+    if ($element.is('#scroll')) {
+      $element.css('font-size', (theHeight * 0.19) + 'px');
+    }
+
+    if ($element.is('#function')) {
+      $element.css('font-size', (theHeight * 0.25) + 'px');
+    }
+
+    if ($element.is('#navigation') || $element.is('#arrow')) {
+      $element.css('font-size', (theHeight * 0.12) + 'px');
+    }
+
+    if ($element.is('#numpad') || $element.is('#alpha')) {
+      $element.css('font-size', (theHeight * 0.045) + 'px');
+    }
+  }
 
   $('[data-section]').draggable({
     containment: 'window',
@@ -321,7 +354,6 @@
       initPositionY = ui.position.top;
       initPointerX = event.pageX;
       initPointerY = event.pageY;
-      
     },
     drag: function(event, ui) {
       var $element = $(this);
@@ -356,40 +388,9 @@
         //Get positions based on ID
         whichItem = ui.helper.context.id;
 
-        if(whichItem === 'mouse'){
-          tempConfig.mouseXpos = ui.position.top;
-          tempConfig.mouseYpos = ui.position.left;
-        }
-
-        if(whichItem === 'numpad'){
-          tempConfig.numpadXpos = ui.position.top;
-          tempConfig.numpadYpos = ui.position.left;
-        }
-        
-        if(whichItem === 'function'){
-          tempConfig.funcXpos = ui.position.top;
-          tempConfig.funcYpos = ui.position.left;
-        }
-
-        if(whichItem === 'alpha'){
-          tempConfig.alphaXpos = ui.position.top;
-          tempConfig.alphaYpos = ui.position.left;
-
-        }
-
-        if(whichItem === 'scroll'){
-          tempConfig.systemXpos = ui.position.top;
-          tempConfig.systemYpos = ui.position.left;
-        }
-
-        if(whichItem === 'navigation'){
-          tempConfig.navXpos = ui.position.top;
-          tempConfig.navYpos = ui.position.left;
-        }
-
-        if(whichItem === 'arrow'){
-          tempConfig.arrowXpos = ui.position.top;
-          tempConfig.arrowYpos = ui.position.left;
+        for (var c in getTempVal(whichItem)) {
+          elemname = whichItem + '_' + c;
+          tempConfig[elemname] = getTempVal(whichItem)[c];
         }
       
     }
@@ -427,7 +428,6 @@
         $element.css('height', $element.height() - overlapY);
       }
 
-      var theHeight = parseInt($element.css('height'));
 
       if (parseInt($element.css('top')) < 0) {
         ui.position.top = 0;
@@ -439,25 +439,7 @@
         $(this).resizable('widget').trigger('mouseup');
       }
 
-      if ($element.is('#mouse')) {
-        $element.css('font-size', (theHeight * 0.06) + 'px');
-      }
-
-      if ($element.is('#scroll')) {
-        $element.css('font-size', (theHeight * 0.19) + 'px');
-      }
-
-      if ($element.is('#function')) {
-        $element.css('font-size', (theHeight * 0.25) + 'px');
-      }
-
-      if ($element.is('#navigation') || $element.is('#arrow')) {
-        $element.css('font-size', (theHeight * 0.12) + 'px');
-      }
-
-      if ($element.is('#numpad') || $element.is('#alpha')) {
-        $element.css('font-size', (theHeight * 0.045) + 'px');
-      }
+      adjustFont($element);
 
       if (($element.width() + ui.position.left - 5) > $(window).width()) {
 
@@ -489,6 +471,11 @@
 
       }
 
+        for (var c in getTempVal($element[0].id)) {
+          elemname = $element[0].id + '_' + c;
+          tempConfig[elemname] = getTempVal($element[0].id)[c];
+        }
+
     }
   });
 
@@ -508,7 +495,6 @@
     // initialize keyboard
     var keyboard = new KeystrokeVisualizer();
     keyboard.init();
-
     var sections = {
       func    : $('[data-section=function]'),
       alpha   : $('[data-section=alpha]'),
@@ -520,6 +506,7 @@
     };
 
     var receiveData = function(config){
+      console.log(config);
       var opacVal = config.opacity / 100;
       for (var i in config) {
           if (sections[i] !== undefined) {
@@ -528,20 +515,23 @@
             } else {
               sections[i].removeClass('hidden');
             }
-          }
-          try {
             sections[i].css('opacity', opacVal);
-          } catch(e) {
-
           }
+      }
+
+      for (var a in sections) {
+        for (var c in getTempVal(sections[a][0].id)) {
+          elemname = sections[a][0].id + '_' + c;
+         $('#' + sections[a][0].id).css(c, config[elemname]);
+         tempConfig[elemname] = config[elemname];
+        }
+        adjustFont(sections[a]);
       }
 
       $('#customCSS').remove();
       var hexvalg = hexToRgb(config.glowcolor).g;
       var hexvalr = hexToRgb(config.glowcolor).r;
       var hexvalb = hexToRgb(config.glowcolor).b;
-      // $('.glow.activated').css('background', 'radial-gradient(rgba(' + hexvalr +
-      //  ', ' + hexvalg + ', ' + hexvalb + ', .5) 5%, rgba(255, 255, 255, 0) 50%);');
       $('head').append('<style id="customCSS"> ' +
         '.glow.activated { ' + 
           'background: radial-gradient(rgba(' + hexvalr +
@@ -555,115 +545,45 @@
       $('#mouse_right').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
       $('.key').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
 
-      //SET Positions
-      sections.mouse.css('zoom',config.mouseZoom);
-      sections.mouse.css('top',config.mouseXpos);
-      sections.mouse.css('left',config.mouseYpos);
-
-      sections.numpad.css('zoom',config.numpadZoom);
-      sections.numpad.css('top',config.numpadXpos);
-      sections.numpad.css('left',config.numpadYpos);
-
-      sections.func.css('zoom',config.funcZoom);
-      sections.func.css('top',config.funcXpos);
-      sections.func.css('left',config.funcYpos);
-
-      sections.alpha.css('zoom',config.alphaZoom);
-      sections.alpha.css('top',config.alphaXpos);
-      sections.alpha.css('left',config.alphaYpos);
-
-      sections.system.css('zoom',config.systemZoom);
-      sections.system.css('top',config.systemXpos);
-      sections.system.css('left',config.systemYpos);
-
-      sections.nav.css('zoom',config.navZoom);
-      sections.nav.css('top',config.navXpos);
-      sections.nav.css('left',config.navYpos);
-
-      sections.arrow.css('zoom',config.arrowZoom);
-      sections.arrow.css('top',config.arrowXpos);
-      sections.arrow.css('left',config.arrowYpos);
-
-      //Transfer position data back to obj for it to be saved
-      tempConfig.mouseXpos = config.mouseXpos;
-      tempConfig.mouseYpos = config.mouseYpos;
-      if(config.mouseZoom !== undefined){
-        tempConfig.mouseZoom = config.mouseZoom;
-      }
-      
-      tempConfig.numpadXpos = config.numpadXpos;
-      tempConfig.numpadYpos = config.numpadYpos;
-      if(config.numpadZoom !== undefined){
-        tempConfig.numpadZoom = config.numpadZoom;
-      }
-
-      tempConfig.funcXpos = config.funcXpos;
-      tempConfig.funcYpos = config.funcYpos;
-      if(config.funcZoom !== undefined){
-        tempConfig.funcZoom = config.funcZoom;
-      }
-      
-      tempConfig.alphaXpos = config.alphaXpos;
-      tempConfig.alphaYpos = config.alphaYpos;
-      if(config.alphaZoom !== undefined){
-        tempConfig.alphaZoom = config.alphaZoom;
-      }
-      
-      tempConfig.systemXpos = config.systemXpos;
-      tempConfig.systemYpos = config.systemYpos;
-      if(config.systemZoom !== undefined){
-        tempConfig.systemZoom = config.systemZoom;
-      }
-      
-      tempConfig.navXpos = config.navXpos;
-      tempConfig.navYpos = config.navYpos;
-      if(config.navZoom !== undefined){
-        tempConfig.navZoom = config.navZoom;
-      }
-      
-      tempConfig.arrowXpos = config.arrowXpos;
-      tempConfig.arrowYpos = config.arrowYpos;
-      if(config.arrowZoom !== undefined){
-        tempConfig.arrowZoom = config.arrowZoom; 
-      }
-
     };
 
     //Apply config on Load
   item.loadConfig().then(receiveData);
 
-
     //Update and Save config with new coordinates or sizes every mouse-up
     allKey.addEventListener('mouseup',function (){
-        item.saveConfig
         item.loadConfig().then(updateData);
       });
 
     //Apply config on Save
     xjs.SourcePluginWindow.getInstance().on('save-config', function(config) {
+      console.log(config);
       var opacVal = config.opacity / 100;
       // apply configuration
       for (var i in config) {
-        if (sections[i] !== undefined) {
-          if (config[i] === false) {
-            sections[i].addClass('hidden');
-          } else {
-            sections[i].removeClass('hidden');
+          if (sections[i] !== undefined) {
+            if (config[i] === false) {
+              sections[i].addClass('hidden');
+            } else {
+              sections[i].removeClass('hidden');
             }
-          }          
-          try {
             sections[i].css('opacity', opacVal);
-          } catch(e) {
-            
           }
+      }
+
+      for (var c in getTempVal(sections[i][0].id)) {
+        for (var a in sections) {
+          elemname = sections[a][0].id + '_' + c;
+         $('#' + sections[a][0].id).css(c, config[elemname]);
+         tempConfig[elemname] = config[elemname];
+         adjustFont(sections[i]);
         }
+      }
 
       $('#customCSS').remove();
       var hexvalg = hexToRgb(config.glowcolor).g;
       var hexvalr = hexToRgb(config.glowcolor).r;
       var hexvalb = hexToRgb(config.glowcolor).b;
-      // $('.glow.activated').css('background', 'radial-gradient(rgba(' + hexvalr +
-      //  ', ' + hexvalg + ', ' + hexvalb + ', .5) 5%, rgba(255, 255, 255, 0) 50%);');
       $('head').append('<style id="customCSS"> ' +
         '.glow.activated { ' + 
           'background: radial-gradient(rgba(' + hexvalr +
@@ -681,7 +601,9 @@
 
     //Merge config to tempConfig that holds the positions then save
     var updateData = function(config){
-      for (var i in tempConfig){config[i] = tempConfig[i]}
+      for (var i in tempConfig){
+        config[i] = tempConfig[i];
+      }
       item.saveConfig(config);
     }
 
@@ -699,5 +621,6 @@
           b: parseInt(result[3], 16)
       } : null;
     }
+
   });
 })();
