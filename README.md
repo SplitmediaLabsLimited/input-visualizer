@@ -1,4 +1,4 @@
-# Keyboard
+# input-visualizer
 
 Input (keyboard and mouse) visualizer for XSplit Broadcaster. 
 
@@ -8,4 +8,4 @@ This plugin was created to demonstrate the usage of [XSplit JS Framework](http:/
 
 Feel free to modify this to create your own plugin.
 
-current status: plugin not yet released to store (we are currently fixing some bugs)
+current status: plugin soon to be released
