@@ -39,9 +39,10 @@
             this.selected = option;
 
             this.fire('select-changed', { 
-                value: this.value, 
-                name: this.name, 
-                data: data 
+                value       : this.value, 
+                selectedText: this.selected ? this.selected.label  : '',
+                name        : this.name, 
+                data        : data 
             });
         },
         

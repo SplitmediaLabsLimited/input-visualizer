@@ -15,16 +15,26 @@
   <body>
     <xui-section label="Display">
       <div id="innersection">
-        <label class="desc">Check the keyboard and mouse components that you want to show. <div class="generalInfo">?</div>
-        <div id='generalInfo'>- Drag each item on the stage to change the position.<p>- Resize each item by positioning your mouse on the corner, then click and drag</p>
+        <label class="desc">Check the keyboard and mouse components that you want to show.
+        <div class="generaltooltip">
+          <div class='generalinfo'>
+            <span>
+              - Drag each item on the stage to change the position.<p>- Resize each item by positioning your mouse on the corner, then click and drag</p>
+            </span>
+          </div>
+          <div class="general"><span>?</span></div>
         </div>
         <br>
         </label>
         <div class="checkelements">
           <div class="elementcontainer">
             <xui-checkbox id="keyboard"><label>Keyboard</label></xui-checkbox>
-            <div class="info">?</div>
-            <div id='keyInfo'>Check/Uncheck Keyboard to show/hide all the sub-items under keyboard.</div>
+            <div class="tooltipcont">
+              <div class='keyInfo'>
+                <span>Check/Uncheck Keyboard to show/hide all the sub-items under keyboard.</span>
+              </div>
+              <div id="info"><span>?</span></div>
+            </div>
             <br>
             &nbsp;&nbsp;<xui-checkbox id="function"><label>Function</label></xui-checkbox><br>
             &nbsp;&nbsp;<xui-checkbox id="alpha"><label>Alphanumeric</label></xui-checkbox><br>

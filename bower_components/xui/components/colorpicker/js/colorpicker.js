@@ -290,6 +290,10 @@
             {
                 this.$.picker.click();
             }
+            else if (event.which == 8)
+            {
+                event.preventDefault();  
+            }
         },
 
         reset: function()

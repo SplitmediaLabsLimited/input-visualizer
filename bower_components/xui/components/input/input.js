@@ -137,6 +137,12 @@
         onInputBlur: function(event)
         {
             this.value = this.$.input.value;
+            this.fire("inputblur");
+        },
+
+        setFocus: function()
+        {
+            this.$.input.focus();
         },
 
         ready : function()

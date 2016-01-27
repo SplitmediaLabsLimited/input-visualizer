@@ -128,7 +128,7 @@
 
             var manageDelay = function()
             {
-                var pressValue = parseInt(_this.value) - 1;
+                var pressValue = parseFloat(_this.value) - _this.step;
                 if (pressValue >= _this.min)
                 {
                     _this.value = pressValue;
@@ -168,7 +168,7 @@
 
             var manageDelay = function()
             {
-                var pressValue = parseInt(_this.value) + 1;
+                var pressValue = parseFloat(_this.value) + _this.step;
                 if (pressValue <= _this.max)
                 {
                     _this.value = pressValue;
@@ -212,6 +212,7 @@
         {
             if (event.keyCode == 13)
             {
+                this.$.inputText.value = this.$.inputText.value.toString().trim();
                 this.value = this.$.inputText.value;
                 this.fire("set");
             }
@@ -231,9 +232,18 @@
 
         onInputBlur: function(event)
         {
+            this.$.inputText.value = this.$.inputText.value.toString().trim()
             this.value = this.$.inputText.value;
             this.fire("set");
-        }        
+        },
+
+        onSliderKeydown: function(event)
+        {
+            if (event.keyCode == 8)
+            {
+                event.preventDefault();
+            }
+        }
     };
     
     Polymer.call({}, XUISlider.prototype);

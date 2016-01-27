@@ -15,6 +15,10 @@
 	    get label()
 	    {
 	        return this.innerHTML;
+	    },
+
+	    ready: function() {
+	    	this.textContent = this.textContent.trim();
 	    }
 	});
 })();

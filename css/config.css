@@ -7,7 +7,7 @@
 }
 
 body {
-  margin: 17px 0 0 0;
+  margin: 12px 0 0 0;
   font-family: 'Roboto', sans-serif;
   font-size: 10px;
   padding: 0;
@@ -25,59 +25,99 @@ label {
   color: #888;
 }
 
-.info, .generalInfo {
+.keyInfo {
+  width: 180px;
+  height: 75px;
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 11px;
+  color: #888;
+  background-color: #080808;
+  border: 1px solid #888;
+  opacity: .95;
+  z-index: 1;
+}
+
+.keyInfo span {
+  position: relative;
+  top: 25px;
+  left: 5px;
+}
+
+.generalinfo {
+  width: 180px;
+  height: 120px;
+  position: absolute;
+  display: none;
+  left: 0;
+  top: 0;
+  padding: 3px;
+  font-size: 11px;
+  color: #888;
+  background-color: #080808;
+  border: 1px solid #888;
+  z-index: 3;
+}
+
+.generalinfo span {
+  position: relative;
+  top: 20px;
+  left: 5px;
+}
+
+#info, .general {
   background-color: #3d3d3d;
   width: 15px;
   height: 15px;
   font-size: 13px;
   font-weight: 900;
   color: #000;
-  margin-left: 5px;
-  padding: 0px 4.5px;
+  margin: 5px;
   border-radius: 2px;
+  display: inline-flex;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.general {
+  position: relative;
+  z-index: 4;
+}
+
+#info span, .general span {
+  align-self: center;
+}
+
+
+#info:hover, .general:hover, .keyInfo:hover + #info,
+.generalinfo:hover + .general {
+  background-color: #0098d4;
+  cursor: pointer;
+}
+
+.keyInfo:hover, .generalinfo:hover {
+  cursor: pointer;
+}
+
+.tooltipcont:hover .keyInfo {
+  display: block;
+}
+
+.generaltooltip:hover .generalinfo {
+  display: block;
+}
+
+.tooltipcont {
+  position: relative;
   display: inline-block;
 }
 
-.info:hover, .generalInfo:hover {
-  background-color: #0098d4;
-}
-
-.info:hover ~ #keyInfo{
-  display: block;
-}
-
-.generalInfo:hover ~ #generalInfo{
-  display: block;
-}
-
-#keyInfo{
-  width: 180px;
-  height: 55px;
-  position: absolute;
-  display: none;
-  left: 110px;
-  top: 75px;
-  padding: 3px;
-  font-size: 11px;
-  line-height: 1.5;
-  color: #888;
-  background-color: #080808;
-  border: 1px solid #888;
-  opacity: .95;
-}
-
-#generalInfo{
-  width: 180px;
-  height: 85px;
-  position: absolute;
-  display: none;
-  left: 130px;
-  top: 35px;
-  padding: 3px;
-  font-size: 11px;
-  color: #888;
-  background-color: #080808;
-  border: 1px solid #888;
+.generaltooltip {
+  position: relative;
+  display: inline-block;
 }
 
 .checkelements {

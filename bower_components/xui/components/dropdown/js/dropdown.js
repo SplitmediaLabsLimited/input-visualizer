@@ -272,17 +272,17 @@
             {
                 this.selected = selected.innerHTML;
             }
-            this.fire("change");
-        },
-
-        reinitialise: function()
-        {
-            var selector = "#options a[value='" + this.value + "']";
-            var selected = this.$.dropdown.querySelector(selector);
-            if (selected != null)
+            // get selected from optionlist itself not from options
+            else
             {
-                this.selected = selected.innerHTML;
-            }  
+                for (var i = this.optionlist.length - 1; i >= 0; i--) {
+                    if (this.optionlist[i].id == newValue)
+                    {
+                        this.selected = this.optionlist[i].name;
+                    }
+                };
+            }
+            this.fire("change");
         },
 
         computeScrollTop: function(viewportOffset, height)
@@ -376,7 +376,7 @@
             this.XUIDropdownClicked();
             this.fire("select");
         },
-        
+
         optionlistChanged: function(oldVal, newVal)
         {
             if(typeof newVal !== "undefined")
@@ -388,7 +388,7 @@
                 }
             }
         },
-        
+
         /**
          * Updates the option list
          */
@@ -405,6 +405,7 @@
             }
 
             this.list = list;
+            //this.$.options.getElementsByTagName('template')[0].iterator_.updateIteratedValue();
             this.selected = selectedName;
         }
     };

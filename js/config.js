@@ -12,6 +12,7 @@
   var selectBorderColor = document.getElementById('bordercolor');
   var selectGlowColor = document.getElementById('glowcolor');
   var opacitySlider = document.getElementById('opacitySlider');
+
   var elements = {
     func     : document.getElementById('function'),
     alpha    : document.getElementById('alpha'),
