@@ -17,6 +17,6 @@
   <MinFxVersion>2.3.1505.0516</MinFxVersion>
   <Version>0.1.0</Version>
   
-  <Name>keyboard</Name>
-  <ProperName>keyboard</ProperName>
+  <Name>inputvisualizer</Name>
+  <ProperName>Input Visualizer</ProperName>
 </config>
