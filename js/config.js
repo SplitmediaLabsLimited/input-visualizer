@@ -1,6 +1,32 @@
 (function() {
   'use strict';
 
+    document.onselectstart = function(event)
+    {
+      var nodeName = event.target.nodeName;
+      if (nodeName === "INPUT" || nodeName === "TEXTAREA" || nodeName === "XUI-INPUT" || nodeName === "XUI-SLIDER")
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    };
+    document.onkeydown = function(event){
+      if ((event.target || event.srcElement).nodeName !== 'INPUT' &&
+        (event.target || event.srcElement).nodeName !== 'TEXTAREA' &&
+        (event.target || event.srcElement).nodeName !== 'XUI-SLIDER' &&
+        (event.target || event.srcElement).nodeName !== 'XUI-INPUT' &&
+        (event.target || event.srcElement).nodeName !== 'XUI-COLORPICKER' &&
+        (event.target || event.srcElement).contentEditable !== true)
+      {
+        if (event.keyCode == 8)
+        return false;
+      }
+    };
+    document.oncontextmenu = function(){ return false; };
+
   var xjs = require('xjs'),
       Item = xjs.Item,
       SourceConfigWindow = xjs.SourceConfigWindow;
