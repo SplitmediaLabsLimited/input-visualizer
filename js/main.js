@@ -478,6 +478,8 @@
 
   // XBC interaction begins here
   xjs.ready().then(Item.getCurrentSource).then(function(item) {
+    return item.setName('Input Visualizer');
+  }).then(function(item) {
     return item.setKeepAspectRatio(false);
   }).then(function(item) {
     // use whole stage for source
