@@ -28,8 +28,8 @@
     document.oncontextmenu = function(){ return false; };
 
   var xjs = require('xjs'),
-      Item = xjs.Item,
-      SourceConfigWindow = xjs.SourceConfigWindow;
+      Item = xjs.Source,
+      SourcePropsWindow = xjs.SourcePropsWindow;
 
   var currentSource;
   var temp = true;
@@ -143,8 +143,8 @@
   };
 
   xjs.ready().then(function() {
-    var configWindow =  xjs.SourceConfigWindow.getInstance();
-    SourceConfigWindow.getInstance().useTabbedWindow({
+    var configWindow =  SourcePropsWindow.getInstance();
+    configWindow.useTabbedWindow({
       customTabs: ['Keyboard/Mouse'],
       tabOrder: ['Keyboard/Mouse', 'Color', 'Layout', 'Transition']
     });

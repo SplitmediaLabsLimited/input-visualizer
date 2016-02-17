@@ -19,7 +19,8 @@
    * http://xjsframework.github.io/api.html
    */
   var xjs = require('xjs');
-  var Item = xjs.Item;
+  var Item = xjs.Source;
+  var myItem;
   var dll = xjs.Dll;
   var Rectangle = xjs.Rectangle;
   var tempConfig = {};
@@ -173,6 +174,7 @@
   };
 
   KeystrokeVisualizer.prototype.init = function() {
+    var _this = this;
     this.keyMap = {};
     this.mouseMap = {
       mouse_left : null,
@@ -191,26 +193,35 @@
       if (Array.isArray(mapped)) {
         mapped.forEach(mapKeyFunction);
       } else {
-        this.keyMap[keys] = $('.key[code=\'' + mapped + '\']'); 
+        this.keyMap[keys] = $('.key[code=\'' + mapped + '\']');
       }
     }
 
     for (var button in this.mouseMap) {
-      this.mouseMap[button] = $('#' + button); 
+      this.mouseMap[button] = $('#' + button);
     }
 
     // TODO: finalize general method to use DLLs
     dll.load(['Scriptdlls\\SplitMediaLabs\\XjsEx.dll']);
-    dll.callEx('xsplit.HookSubscribe');
-    window.OnDllOnInputHookEvent = this.readHookEvent.bind(this);
+    dll.on('access-granted', function() {
+      window.OnDllOnInputHookEvent = _this.readHookEvent.bind(_this);
+      dll.callEx('xsplit.HookSubscribe').then(function(){}).catch(function(err){});
+      // location.reload();
+    });
 
-      dll.on('access-granted', function() {
-        location.reload();
-      });
+    dll.on('access-revoked', function() {
+      window.OnDllOnInputHookEvent = function(){};
+      // location.reload();
+    });
 
-      // dll.on('access-granted', function() {
-        // dll.callEx('xsplit.HookUnsubscribe');
-      // });
+    dll.isAccessGranted().then(function(isGranted){
+      if (isGranted) {
+        window.OnDllOnInputHookEvent = _this.readHookEvent.bind(_this);
+        dll.callEx('xsplit.HookSubscribe').then(function(){}).catch(function(err){});
+      } else {
+        window.OnDllOnInputHookEvent = function(){};
+      }
+    });
   };
 
   KeystrokeVisualizer.prototype.readHookEvent = function(msg, wparam, lparam) {
@@ -316,7 +327,7 @@
       width: $('#' + elem).css('width'),
       top: $('#' + elem).css('top'),
       left: $('#' + elem).css('left')
-    }
+    };
   }
 
   function adjustFont($element) {
@@ -370,7 +381,7 @@
       }
       if (zoom * (ui.position.left + $element.width()) >
         document.body.offsetWidth) {
-          ui.position.left = (document.body.offsetWidth - 
+          ui.position.left = (document.body.offsetWidth -
             zoom * $element.width()) / zoom;
       }
       if (ui.position.top < 0) {
@@ -468,22 +479,30 @@
 
       }
 
-        for (var c in getTempVal($element[0].id)) {
-          elemname = $element[0].id + '_' + c;
-          tempConfig[elemname] = getTempVal($element[0].id)[c];
-        }
-
+      for (var c in getTempVal($element[0].id)) {
+        elemname = $element[0].id + '_' + c;
+        tempConfig[elemname] = getTempVal($element[0].id)[c];
+      }
     }
   });
 
   // XBC interaction begins here
   xjs.ready().then(Item.getCurrentSource).then(function(item) {
-    return item.setName('Input Visualizer');
+    myItem = item;
+    return item.loadConfig();
+  }).then(function(config) {
+    if (Object.keys(config).length > 0) {
+      try{
+        throw new Error();
+      } catch(e){
+      // handle
+        throw e; // or a wrapper over e so we know it wasn't handled
+      }
+    } else {
+      return myItem.setName('Input Visualizer');
+    }
   }).then(function(item) {
     return item.setKeepAspectRatio(false);
-  }).then(function(item) {
-    // use whole stage for source
-    return item.setPosition(Rectangle.fromCoordinates(0, 0, 1, 1));
   }).then(function(item) {
     return item.setKeepLoaded(true);
   }).then(function(item) {
@@ -491,6 +510,15 @@
   }).then(function(item) {
     return item.setPositionLocked(true);
   }).then(function(item) {
+    // use whole stage for source
+    return item.setPosition(Rectangle.fromCoordinates(0, 0, 1, 1));
+  }).then(function(item) {
+    initializePlugin();
+  }).catch(function() {
+    initializePlugin();
+  });
+
+  var initializePlugin = function() {
     // initialize keyboard
     var keyboard = new KeystrokeVisualizer();
     keyboard.init();
@@ -504,7 +532,17 @@
       mouse   : $('[data-section=mouse]'),
     };
 
-    var receiveData = function(config){
+    var updateHTML = function(config, isInitial) {
+      if (!config.hasOwnProperty('opacity')) {
+        config.opacity = 100;
+      }
+      if (!config.hasOwnProperty('glowcolor')) {
+        config.glowcolor = '#FFFFFF';
+      }
+      if (!config.hasOwnProperty('bordercolor')) {
+        config.bordercolor = '#FFFFFF';
+      }
+
       var opacVal = config.opacity / 100;
       for (var i in config) {
           if (sections[i] !== undefined) {
@@ -517,14 +555,16 @@
           }
       }
 
-      for (var a in sections) {
-        if (sections[a] !== undefined) {
-          for (var c in getTempVal(sections[a][0].id)) {
-            elemname = sections[a][0].id + '_' + c;
-           $('#' + sections[a][0].id).css(c, config[elemname]);
-           tempConfig[elemname] = config[elemname];
+      if (typeof isInitial !== 'undefined' && isInitial) {
+        for (var a in sections) {
+          if (sections[a] !== undefined) {
+            for (var c in getTempVal(sections[a][0].id)) {
+              elemname = sections[a][0].id + '_' + c;
+             $('#' + sections[a][0].id).css(c, config[elemname]);
+             tempConfig[elemname] = config[elemname];
+            }
+            adjustFont(sections[a]);
           }
-          adjustFont(sections[a]);
         }
       }
 
@@ -533,71 +573,43 @@
       var hexvalr = hexToRgb(config.glowcolor).r;
       var hexvalb = hexToRgb(config.glowcolor).b;
       $('head').append('<style id="customCSS"> ' +
-        '.glow.activated { ' + 
+        '.glow.activated { ' +
           'background: radial-gradient(rgba(' + hexvalr +
-       ', ' + hexvalg + ', ' + hexvalb + ', .8) 5%,' + 
+       ', ' + hexvalg + ', ' + hexvalb + ', .8) 5%,' +
           'rgba(255, 255, 255, 0) 60%); }' +
         '</style>');
-      // $('.activated').css('background', 'radial-gradient(#7F' + hexval + ' 5%, rgba(255, 255, 255, 0) 50%);');
-      sections.mouse.css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
+      sections.mouse.css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px ' + config.bordercolor});
       $('#mouse_left').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
       $('#mouse_middle').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
       $('#mouse_right').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
       $('.key').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
-
     };
 
     //Apply config on Load
-  item.loadConfig().then(receiveData);
+    myItem.loadConfig().then(function(config) {
+      updateHTML(config, true);
+    });
 
     //Update and Save config with new coordinates or sizes every mouse-up
     allKey.addEventListener('mouseup',function (){
-        item.loadConfig().then(updateData);
+        myItem.loadConfig().then(updateData);
       });
 
     //Apply config on Save
     xjs.SourcePluginWindow.getInstance().on('save-config', function(config) {
-      var opacVal = config.opacity / 100;
-      // apply configuration
-      for (var i in config) {
-          if (sections[i] !== undefined) {
-            if (config[i] === false) {
-              sections[i].addClass('hidden');
-            } else {
-              sections[i].removeClass('hidden');
-            }
-            sections[i].css('opacity', opacVal);
-          }
-      }
-
-      $('#customCSS').remove();
-      var hexvalg = hexToRgb(config.glowcolor).g;
-      var hexvalr = hexToRgb(config.glowcolor).r;
-      var hexvalb = hexToRgb(config.glowcolor).b;
-      $('head').append('<style id="customCSS"> ' +
-        '.glow.activated { ' + 
-          'background: radial-gradient(rgba(' + hexvalr +
-       ', ' + hexvalg + ', ' + hexvalb + ', .8) 5%,' + 
-          'rgba(255, 255, 255, 0) 60%); }' +
-        '</style>');
-        sections.mouse.css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px ' + config.bordercolor});
-        $('#mouse_left').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
-        $('#mouse_middle').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
-        $('#mouse_right').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
-        $('.key').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
-
-        updateData(config);
+      updateHTML(config);
+      updateData(config);
     });
 
     //Merge config to tempConfig that holds the positions then save
-    var updateData = function(config){
+    var updateData = function(config) {
       for (var i in tempConfig){
         config[i] = tempConfig[i];
       }
-      item.saveConfig(config);
-    }
+      myItem.saveConfig(config);
+    };
 
-    function hexToRgb(hex) {
+    var hexToRgb = function(hex) {
       // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
       var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
       hex = hex.replace(shorthandRegex, function(m, r, g, b) {
@@ -610,7 +622,6 @@
           g: parseInt(result[2], 16),
           b: parseInt(result[3], 16)
       } : null;
-    }
-
-  });
+    };
+  };
 })();
