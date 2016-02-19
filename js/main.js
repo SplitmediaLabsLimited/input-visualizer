@@ -583,6 +583,13 @@
       $('#mouse_middle').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
       $('#mouse_right').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
       $('.key').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
+
+      if (typeof isInitial !== 'undefined' && isInitial) {
+        setTimeout(function()
+        {
+          document.querySelector('html').style.visibility = 'visible';
+        }, 100);
+      }
     };
 
     //Apply config on Load
