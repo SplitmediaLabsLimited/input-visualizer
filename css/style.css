@@ -10,6 +10,7 @@
 
 html {
   visibility: hidden;
+  position: fixed;
 }
 
 html, body {
@@ -36,7 +37,7 @@ body * {
 }
 
 .glow {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI Symbol', sans-serif;
   font-weight: bold;
 }
 
@@ -163,8 +164,8 @@ body * {
 [data-section=function] {
   left: 16px;
   top: 212px;
-  width: 842.817px;
-  height: 61px;
+  width: 839px;
+  height: 48px;
   font-size: 14.25px;
   display: flex;
   flex-direction: row;
@@ -172,9 +173,9 @@ body * {
 
 [data-section=scroll] {
   left: 863px;
-  top: 207px;
+  top: 212px;
   width: 177.333px;
-  height: 56px;
+  height: 51px;
   font-size: 11.64px;
   display: flex;
   flex-direction: row;
@@ -183,9 +184,9 @@ body * {
 
 [data-section=navigation] {
   left: 861px;
-  top: 271px;
-  width: 180.375px;
-  height: 117px;
+  top: 272px;
+  width: 180px;
+  height: 104px;
   font-size: 14.04px;
   display: flex;
   flex-direction: column;
@@ -193,10 +194,10 @@ body * {
 }
 
 [data-section=arrow] {
-  left: 866px;
-  top: 417px;
-  width: 178.675px;
-  height: 113px;
+  left: 862px;
+  top: 428px;
+  width: 178px;
+  height: 103px;
   font-size: 13.56px;
 }
 
@@ -214,16 +215,23 @@ body * {
 /* Mouse visualizer */
 #mouse {
   position: relative;
+  left: 1066px;
+  top: 15px;  
+
+  width: 179.787px;
+  height: 250px;  
+  font-size: 15px;
+}
+
+#mouse > div:nth-child(1) {
+  position: absolute;
   border: 0.25em solid white;
   border-radius: 25%;
   box-shadow: 0 0 5px #fff;
   white-space: nowrap;
 
-  width: 179.787px;
-  height: 250px;
-  left: 1066px;
-  top: 15px;
-  font-size: 15px;
+  height: 100%;
+  width: 100%;
 }
 
 #mouse_left,
@@ -282,16 +290,16 @@ body * {
 .key[code='F12'] {
   margin: 2px;
   width: 6%;
-  height: 79.4%;
+  height: 100%;
 }
 
 .key[code='Esc'] {
-  margin-right: 6%;
+  margin-right: 5%;
 }
 
 .key[code='F4'],
 .key[code='F8'] {
-  margin-right: 5%;
+  margin-right: 7%;
 }
 
 

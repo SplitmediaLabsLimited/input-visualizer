@@ -114,9 +114,6 @@
       elements.keyboard.checked = true;
       temp = false;
     }
-
-
-
   };
 
   var updateConfig = function(item) {
@@ -139,7 +136,6 @@
     };
     updateElements(config);
     item.requestSaveConfig(config);
-    
   };
 
   xjs.ready().then(function() {
@@ -168,31 +164,15 @@
       updateConfig(currentSource);
     }
 
-    selectBorderColor.addEventListener('click', function(event) {
+    selectBorderColor.addEventListener('set', function(event) {
       changeBorderColor();
     });
 
-    selectBorderColor.addEventListener('keypress', function(event) {
-      if (event.keyCode === 13) {
-        changeBorderColor();
-      }
-    });
-
-    selectGlowColor.addEventListener('click', function(event) {
+    selectGlowColor.addEventListener('set', function(event) {
       changeGlowColor();
     });
 
-    selectGlowColor.addEventListener('keypress', function(event) {
-      if (event.keyCode === 13) {
-        changeGlowColor();
-      }
-    });
-
-    opacitySlider.addEventListener('click', function(event) {
-      changeOpacity();
-    });
-
-    opacitySlider.addEventListener('mouseup', function(event) {
+    opacitySlider.addEventListener('set', function(event) {
       changeOpacity();
     });
 
@@ -224,6 +204,6 @@
       elements[i].addEventListener('change', function() {
         updateConfig(currentSource);
       });
-    };
+    }
   });
 })();

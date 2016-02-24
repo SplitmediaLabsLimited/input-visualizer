@@ -406,6 +406,8 @@
     aspectRatio: true,
     handles: 'all',
     minWidth: 50,
+    maxHeight: 1019,
+    maxWidth: 1920,
     start: function(event, ui) {
       initZoom = $(this).attr('data-zoom');
       initPositionX = ui.position.left;
@@ -422,20 +424,19 @@
       // ui.element is data section
       var $element = ui.element;
 
-      //disable interaction if element is at maximum width
-      if ($element.width() >= ($(window).width() + 2)) {
-        $(this).resizable('widget').trigger('mouseup');
-        var overlapX = $element.width() - ($(window).width() + 2);
-        $element.css('width', $element.width() - overlapX);
-      }
+      // //disable interaction if element is at maximum width
+      // if ($element.width() >= ($(window).width() + 2)) {
+      //   $(this).resizable('widget').trigger('mouseup');
+      //   var overlapX = $element.width() - ($(window).width() + 2);
+      //   $element.css('width', $element.width() - overlapX);
+      // }
 
-      //disable interaction if element is at maximum height
-      if ($element.height() >= ($(window).height() + 2)) {
-        $(this).resizable('widget').trigger('mouseup');
-        var overlapY = $element.height() - ($(window).height() + 2);
-        $element.css('height', $element.height() - overlapY);
-      }
-
+      // //disable interaction if element is at maximum height
+      // if ($element.height() >= ($(window).height() + 2)) {
+      //   $(this).resizable('widget').trigger('mouseup');
+      //   var overlapY = $element.height() - ($(window).height() + 2);
+      //   $element.css('height', $element.height() - overlapY);
+      // }
 
       if (parseInt($element.css('top')) < 0) {
         ui.position.top = 0;
@@ -578,7 +579,7 @@
        ', ' + hexvalg + ', ' + hexvalb + ', .8) 5%,' +
           'rgba(255, 255, 255, 0) 60%); }' +
         '</style>');
-      sections.mouse.css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px ' + config.bordercolor});
+      $('#mouse > div:nth-child(1)').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px ' + config.bordercolor});
       $('#mouse_left').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
       $('#mouse_middle').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
       $('#mouse_right').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
