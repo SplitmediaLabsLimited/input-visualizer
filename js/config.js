@@ -38,6 +38,7 @@
   var selectBorderColor = document.getElementById('bordercolor');
   var selectGlowColor = document.getElementById('glowcolor');
   var opacitySlider = document.getElementById('opacitySlider');
+  var lockCheck = document.getElementById('lock');
 
   var elements = {
     func     : document.getElementById('function'),
@@ -77,6 +78,10 @@
 
     if (config.mouse === true) {
       elements.mouse.checked = true;
+    }
+
+    if (config.lock === true) {
+      lockCheck.checked = true;
     }
 
     if (config.keyboard === true) {
@@ -130,6 +135,7 @@
       numpad  : elements.numpad.checked,
       mouse   : elements.mouse.checked,
       keyboard: elements.keyboard.checked,
+      lock: lockCheck.checked,
       bordercolor   : borderColor,
       glowcolor   : glowColor,
       opacity   : opacityValue,
@@ -189,6 +195,7 @@
       numpad  : config.numpad !== undefined ? config.numpad : true,
       mouse   : config.mouse !== undefined ? config.mouse : true,
       keyboard   : config.keyboard !== undefined ? config.keyboard : true,
+      lock   : config.lock !== undefined ? config.lock : false,
       bordercolor   : config.bordercolor !== undefined ? config.bordercolor : '#FFFFFF',
       glowcolor   : config.glowcolor !== undefined ? config.glowcolor : '#FFFFFF',
       opacity   : config.opacity !== undefined ? config.opacity : 100,
@@ -205,5 +212,9 @@
         updateConfig(currentSource);
       });
     }
+
+    lockCheck.addEventListener('change', function() {
+      updateConfig(currentSource);
+    });
   });
 })();

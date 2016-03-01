@@ -60,7 +60,7 @@ body * {
   display: none;
 }
 
-[data-section]:hover {
+[data-section]:not(.ui-draggable-disabled):hover {
   outline: 1px solid white;
 }
 
@@ -154,16 +154,16 @@ body * {
 
 /* Initial positions */
 [data-section=alpha] {
-  left: 15px;
-  top: 271px;
+  left: 323px;
+  top: 441px;
   width: 846.881px;
   height: 261px;
   font-size: 11.745px;
 }
 
 [data-section=function] {
-  left: 16px;
-  top: 212px;
+  left: 324px;
+  top: 382px;
   width: 839px;
   height: 48px;
   font-size: 14.25px;
@@ -172,8 +172,8 @@ body * {
 }
 
 [data-section=scroll] {
-  left: 863px;
-  top: 212px;
+  left: 1171px;
+  top: 382px;
   width: 177.333px;
   height: 51px;
   font-size: 11.64px;
@@ -183,8 +183,8 @@ body * {
 }
 
 [data-section=navigation] {
-  left: 861px;
-  top: 272px;
+  left: 1169px;
+  top: 442px;
   width: 180px;
   height: 104px;
   font-size: 14.04px;
@@ -194,16 +194,16 @@ body * {
 }
 
 [data-section=arrow] {
-  left: 862px;
-  top: 428px;
+  left: 1170px;
+  top: 598px;
   width: 178px;
   height: 103px;
   font-size: 13.56px;
 }
 
 [data-section=numpad] {
-  left: 1055px;
-  top: 274px;
+  left: 1363px;
+  top: 444px;
   width: 212.304px;
   height: 257px;
   font-size: 11.565px;
@@ -215,8 +215,8 @@ body * {
 /* Mouse visualizer */
 #mouse {
   position: relative;
-  left: 1066px;
-  top: 15px;  
+  left: 1374px;
+  top: 185px;
 
   width: 179.787px;
   height: 250px;  

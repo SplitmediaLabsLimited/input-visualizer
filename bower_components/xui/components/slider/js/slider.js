@@ -84,6 +84,18 @@
             step   : { value: 1, reflect: true }
         },
 
+        valueIsValid: function(valueChecking)
+        {
+            if (isNaN(valueChecking) ||
+                (valueChecking.toString().trim() === "") ||
+                (valueChecking < this.min) ||
+                (valueChecking > this.max)) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+
         valueChanged: function(oldValue, newValue)
         {
             if (oldValue == newValue)
@@ -91,10 +103,7 @@
                 return;
             }
 
-            if (isNaN(newValue) || 
-                (newValue.toString().trim() == "") ||
-                (newValue < this.min) || 
-                (newValue > this.max))
+            if (!this.valueIsValid(newValue))
             {
                 this.value = oldValue;
                 return;
@@ -143,9 +152,9 @@
                     raised();
                 }
                 
-            }
+            };
             document.addEventListener("mouseup", raised);
-            manageDelay(); 
+            manageDelay();
         },
 
         endDecrement: function()
@@ -183,9 +192,9 @@
                     raised();
                 }
                 
-            }
+            };
             document.addEventListener("mouseup", raised);
-            manageDelay();            
+            manageDelay();
         },
 
         endIncrement: function()
@@ -212,29 +221,41 @@
         {
             if (event.keyCode == 13)
             {
-                this.$.inputText.value = this.$.inputText.value.toString().trim();
-                this.value = this.$.inputText.value;
-                this.fire("set");
+                var tempValue = this.$.inputText.value.toString().trim();
+                this.$.inputText.value = tempValue;
+                this.value = tempValue;
+                if (this.valueIsValid(tempValue)) {
+                    this.fire("set");
+                }
             }
             else if (event.keyCode == 38)
             {
-                this.value = parseInt(this.$.inputText.value) + 1;
-                this.fire("set");
+                var tempValue = parseInt(this.$.inputText.value) + 1;
+                this.value = tempValue;
+                if (this.valueIsValid(tempValue)) {
+                    this.fire("set");
+                }
                 event.preventDefault();
             }
             else if (event.keyCode == 40)
             {
-                this.value = parseInt(this.$.inputText.value) - 1;
-                this.fire("set");
+                var tempValue = parseInt(this.$.inputText.value) - 1;
+                this.value = tempValue;
+                if (this.valueIsValid(tempValue)) {
+                    this.fire("set");
+                }
                 event.preventDefault();
             }
         },
 
         onInputBlur: function(event)
         {
-            this.$.inputText.value = this.$.inputText.value.toString().trim()
-            this.value = this.$.inputText.value;
-            this.fire("set");
+            var tempValue = this.$.inputText.value.toString().trim();
+            this.$.inputText.value = tempValue;
+            this.value = tempValue;
+            if (this.valueIsValid(tempValue)) {
+                this.fire("set");
+            }
         },
 
         onSliderKeydown: function(event)

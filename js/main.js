@@ -544,6 +544,12 @@
         config.bordercolor = '#FFFFFF';
       }
 
+      if (config.hasOwnProperty('lock')) {
+        toggleLockComponents(config.lock);
+      } else {
+        toggleLockComponents(false);
+      }
+
       var opacVal = config.opacity / 100;
       for (var i in config) {
           if (sections[i] !== undefined) {
@@ -630,6 +636,16 @@
           g: parseInt(result[2], 16),
           b: parseInt(result[3], 16)
       } : null;
+    };
+
+    var toggleLockComponents = function(locked) {
+      var lockValue;
+      if (locked) {
+        lockValue = 'disable';
+      } else {
+        lockValue = 'enable';
+      }
+      $('[data-section]').draggable(lockValue).resizable(lockValue);
     };
   };
 })();

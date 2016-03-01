@@ -12,6 +12,7 @@ body {
   font-size: 10px;
   padding: 0;
   width: 100%;
+  overflow: hidden;
 }
 
 label {
@@ -27,7 +28,7 @@ label {
 
 .keyInfo {
   width: 180px;
-  height: 75px;
+  height: 80px;
   display: none;
   position: absolute;
   left: 0;
@@ -38,17 +39,12 @@ label {
   border: 1px solid #888;
   opacity: .95;
   z-index: 1;
-}
-
-.keyInfo span {
-  position: relative;
-  top: 25px;
-  left: 5px;
+  padding: 3px;
 }
 
 .generalinfo {
   width: 180px;
-  height: 120px;
+  height: 110px;
   position: absolute;
   display: none;
   left: 0;
@@ -61,13 +57,50 @@ label {
   z-index: 3;
 }
 
-.generalinfo span {
-  position: relative;
-  top: 20px;
-  left: 5px;
+#lock + .generaltooltip .generalinfo {
+  height: 155px;
+  top: -127px;
+  left: -100px;
 }
 
-#info, .general {
+#lock + .generaltooltip .generalinfo:hover + .general {
+  visibility: hidden;
+}
+
+#lock + .generaltooltip .generalinfo .generalTitle {
+  display: block;
+  background-color: #0098d4;
+  position: absolute;
+  width: 15px;
+  padding: 0;
+  margin: 4px;
+  top: 0;
+  left: 0;
+}
+
+#lock + .generaltooltip .generalinfo .generalTitle span {
+  color: #000000;
+  top: 0;
+  padding: 0;
+}
+
+.generalinfo span,
+.keyInfo span {
+  position: relative;
+  top: 10px;
+  left: 5px;
+  display: inline-block;
+  padding-right: 5px;
+}
+
+.generalinfo div,
+.keyInfo div {
+  font-size: 12px;
+  color: #0095DE;
+  padding-left: 20px;
+}
+
+#info, .general, .generalTitle {
   background-color: #3d3d3d;
   width: 15px;
   height: 15px;
@@ -82,12 +115,16 @@ label {
   z-index: 2;
 }
 
-.general {
+.generalTitle {
+  display: none;
+}
+
+.general, .generalTitle {
   position: relative;
   z-index: 4;
 }
 
-#info span, .general span {
+#info span, .general span,  .generalTitle span {
   align-self: center;
 }
 
@@ -124,6 +161,7 @@ label {
   width: 100%;
   display: inline-flex;
   padding: 3px 0 0 0;
+  margin-bottom: 6px;
 }
 
 .elementcontainer {
@@ -131,6 +169,14 @@ label {
   height: 165px;
   display: block;
   position: relative;
+}
+
+.elementcontainer:nth-child(1) {
+  margin-left: 33px;
+}
+
+.elementcontainer:nth-child(1) xui-checkbox:not(:nth-child(1)) {
+    padding-left: 23px;
 }
 
 #glowcolor {
@@ -145,16 +191,26 @@ label {
   position: relative;
 }
 
+#lock {
+  margin-left: 18px;
+}
+
 .xuicontainer {
-  width: 100%;
+  display: inline-block;
   margin-bottom: 5px;
 }
 
 .xuicontainer label {
   width: 72px;
   display: inline-block;
+  vertical-align: middle;
 }
 
+.xuicontainer:nth-child(4) label
+{
+  text-align: right;
+  padding-right: 10px;
+}
 
 #innersection {
   border: 1px solid #000;
@@ -172,4 +228,9 @@ xui-section {
 xui-colorpicker /deep/ #colorPicker div#paletteContainer
 {
   margin-top: -90px;
+}
+
+xui-checkbox /deep/ label
+{
+  cursor: pointer;
 }
