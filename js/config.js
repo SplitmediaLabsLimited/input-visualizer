@@ -35,6 +35,7 @@
   var temp = true;
 
   var closeBtn = document.getElementById('done');
+  var selectTextColor = document.getElementById('textcolor');
   var selectBorderColor = document.getElementById('bordercolor');
   var selectGlowColor = document.getElementById('glowcolor');
   var opacitySlider = document.getElementById('opacitySlider');
@@ -122,9 +123,10 @@
   };
 
   var updateConfig = function(item) {
-    var borderColor = document.getElementById('bordercolor').getAttribute('value');
-    var glowColor = document.getElementById('glowcolor').getAttribute('value');
-    var opacityValue = document.getElementById('opacitySlider').getAttribute('value');
+    var textColor = selectTextColor.getAttribute('value');
+    var borderColor = selectBorderColor.getAttribute('value');
+    var glowColor = selectGlowColor.getAttribute('value');
+    var opacityValue = opacitySlider.getAttribute('value');
     
     var config = {
       func    : elements.func.checked,
@@ -136,6 +138,7 @@
       mouse   : elements.mouse.checked,
       keyboard: elements.keyboard.checked,
       lock: lockCheck.checked,
+      textcolor   : textColor,
       bordercolor   : borderColor,
       glowcolor   : glowColor,
       opacity   : opacityValue,
@@ -155,6 +158,11 @@
   }).then(function(myItem) {
     currentSource = myItem;
 
+    function changeTextColor() {
+      myItem.requestSaveConfig({ 'textcolor': selectTextColor.value });
+      updateConfig(currentSource);
+    }
+
     function changeBorderColor() {
       myItem.requestSaveConfig({ 'bordercolor': selectBorderColor.value });
       updateConfig(currentSource);
@@ -169,6 +177,10 @@
       myItem.requestSaveConfig({ 'opacity': opacitySlider.value });
       updateConfig(currentSource);
     }
+
+    selectTextColor.addEventListener('set', function(event) {
+      changeTextColor();
+    });
 
     selectBorderColor.addEventListener('set', function(event) {
       changeBorderColor();
@@ -196,10 +208,12 @@
       mouse   : config.mouse !== undefined ? config.mouse : true,
       keyboard   : config.keyboard !== undefined ? config.keyboard : true,
       lock   : config.lock !== undefined ? config.lock : false,
+      textcolor   : config.textcolor !== undefined ? config.textcolor : '#FFFFFF',
       bordercolor   : config.bordercolor !== undefined ? config.bordercolor : '#FFFFFF',
       glowcolor   : config.glowcolor !== undefined ? config.glowcolor : '#FFFFFF',
       opacity   : config.opacity !== undefined ? config.opacity : 100,
     };
+    selectTextColor.value = config.textcolor;
     selectBorderColor.value = config.bordercolor;
     selectGlowColor.value = config.glowcolor;
     opacitySlider.value = config.opacity;

@@ -160,7 +160,7 @@ label {
 .checkelements {
   width: 100%;
   display: inline-flex;
-  padding: 3px 0 0 0;
+  padding: 2px 0 0 0;
   margin-bottom: 6px;
 }
 
@@ -192,24 +192,32 @@ label {
 }
 
 #lock {
-  margin-left: 18px;
+  margin-left: 26px;
 }
 
 .xuicontainer {
   display: inline-block;
-  margin-bottom: 5px;
+  margin-bottom: 1px;
 }
 
 .xuicontainer label {
-  width: 72px;
+  width: 56px;
   display: inline-block;
   vertical-align: middle;
+  text-align: right;
+  padding-right: 5px;
 }
 
 .xuicontainer:nth-child(4) label
 {
   text-align: right;
   padding-right: 10px;
+  width: 80px;
+}
+
+.xuicontainer:nth-child(6)
+{
+  margin-bottom: 4px;
 }
 
 #innersection {

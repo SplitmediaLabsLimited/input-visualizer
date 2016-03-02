@@ -51,17 +51,17 @@
           </div>
         </div>
         <div class="xuicontainer">
-          <label>Border Color </label>
-          <xui-colorpicker id="bordercolor"></xui-colorpicker>
-        </div>
+          <label>Text</label>
+          <xui-colorpicker id="textcolor"></xui-colorpicker>
+        </div>        
         <div class="xuicontainer">
-          <label>Opacity </label>
+          <label>Opacity</label>
           <xui-slider id="opacitySlider" value="100" min="0" max="100"></xui-slider>
         </div>
         <br>
         <div class="xuicontainer">
-          <label>Glow Color </label>
-          <xui-colorpicker id="glowcolor"></xui-colorpicker>
+          <label>Border</label>
+          <xui-colorpicker id="bordercolor"></xui-colorpicker>
         </div>
         <xui-checkbox id="lock"><label>Lock components</label></xui-checkbox>
         <div class="generaltooltip">
@@ -73,7 +73,12 @@
           <div class="general"><span>?</span></div>
         </div>
         <br>
-        <label class="desc">You may need to grant access for this plugin to listen to keyboard/mouse events. You may do so by going to Tools menu > Permissions</label>
+        <div class="xuicontainer">
+          <label>Glow</label>
+          <xui-colorpicker id="glowcolor"></xui-colorpicker>
+        </div>
+        <br>
+        <label class="desc">You may need to grant access for this plugin to listen to keyboard/mouse events. Go to Tools menu > Permissions</label>
 
       </div>
     </xui-section>

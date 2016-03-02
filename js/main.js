@@ -544,6 +544,10 @@
         config.bordercolor = '#FFFFFF';
       }
 
+      if (!config.hasOwnProperty('textcolor')) {
+        config.textcolor = '#FFFFFF';
+      }
+
       if (config.hasOwnProperty('lock')) {
         toggleLockComponents(config.lock);
       } else {
@@ -586,10 +590,11 @@
           'rgba(255, 255, 255, 0) 60%); }' +
         '</style>');
       $('#mouse > div:nth-child(1)').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px ' + config.bordercolor});
-      $('#mouse_left').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
+      $('#mouse_left').css({'color': config.textcolor, 'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
       $('#mouse_middle').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
-      $('#mouse_right').css({'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
-      $('.key').css({'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
+      $('#mouse_right').css({'color': config.textcolor, 'border-color': config.bordercolor, 'box-shadow': '0 5px 5px -5px ' + config.bordercolor});
+      $('.key').css({'color': config.textcolor, 'border-color': config.bordercolor, 'box-shadow': '0 0 5px ' + config.bordercolor});
+      $('.key span').css({'color': config.textcolor});
 
       if (typeof isInitial !== 'undefined' && isInitial) {
         setTimeout(function()
