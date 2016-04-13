@@ -8,4 +8,4 @@ This plugin was created to demonstrate the usage of [XSplit JS Framework](http:/
 
 Feel free to modify this to create your own plugin.
 
-current status: plugin soon to be released
+current status: plugin is already released as Input Visualizer (latest public version of 2.7.1603.0201), compatible for XBC 2.7
