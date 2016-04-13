@@ -21,10 +21,16 @@
             }
         },
 
+        blurCancel = function(event)
+        {
+            cancelChange();
+        },
+
         cancelChange = function()
         {
             document.body.removeEventListener('mousedown', mouseCancel, false);
             document.body.removeEventListener('keydown', keyCancel, false);
+            window.removeEventListener('blur', blurCancel, false);
             self.$.paletteContainer.hidden = true;
             self.clearSelected();
             self.value = self.oldvalue;
@@ -193,6 +199,7 @@
                     _this.$.paletteContainer.hidden = true;
                     document.body.removeEventListener('mousedown', mouseCancel.bind(_this), false);
                     document.body.removeEventListener('keydown', keyCancel.bind(_this), false);
+                    window.removeEventListener('blur', blurCancel.bind(_this), false);
                     _this.fire("set");
                 });
 
@@ -218,16 +225,18 @@
                 _this.oldvalue = _this.value;
                 self = _this;
                 document.body.addEventListener('mousedown', mouseCancel, false);
-                document.body.addEventListener('keydown', keyCancel, false);                
+                document.body.addEventListener('keydown', keyCancel, false);
+                window.addEventListener('blur', blurCancel, false);
             }
             else
             {
                 _this.clearSelected();
                 document.body.removeEventListener('mousedown', mouseCancel, false);
                 document.body.removeEventListener('keydown', keyCancel, false);
+                window.removeEventListener('blur', blurCancel, false);
                 self = null;
                 //blur colorpicker
-            }            
+            }
         },
 
         showSelected: function()

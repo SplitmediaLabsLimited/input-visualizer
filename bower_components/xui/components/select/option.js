@@ -14,7 +14,7 @@
 
 	    get label()
 	    {
-	        return this.innerHTML;
+	        return this.textContent;
 	    },
 
 	    ready: function() {

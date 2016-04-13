@@ -12,6 +12,11 @@
             }
         },
 
+        blurCancel = function()
+        {
+            self.XUIDropdownClicked();
+        },
+
         keyCancel = function()
         {
             if (event.which == 9) // tab
@@ -270,7 +275,7 @@
 
             if (selected != null)
             {
-                this.selected = selected.innerHTML;
+                this.selected = selected.textContent;
             }
             // get selected from optionlist itself not from options
             else
@@ -312,14 +317,16 @@
             {
                 this.clearSelected();
                 document.body.removeEventListener('mousedown', mouseCancel, false);
-                document.body.removeEventListener('keydown', keyCancel, false);                
+                document.body.removeEventListener('keydown', keyCancel, false);
+                window.removeEventListener('blur', blurCancel, false);
                 self = null;
             }
             else
             {
                 self = this;
                 document.body.addEventListener('mousedown', mouseCancel, false);
-                document.body.addEventListener('keydown', keyCancel, false);                
+                document.body.addEventListener('keydown', keyCancel, false);
+                window.addEventListener('blur', blurCancel, false);
                 this.showSelected();
             }
 
