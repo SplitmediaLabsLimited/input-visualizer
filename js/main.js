@@ -490,6 +490,8 @@
   // XBC interaction begins here
   xjs.ready().then(Item.getCurrentSource).then(function(item) {
     myItem = item;
+    return item.setBrowserCustomSize(xjs.Rectangle.fromDimensions(1920, 1019));
+  }).then(function(item) {
     return item.loadConfig();
   }).then(function(config) {
     if (Object.keys(config).length > 0) {
@@ -506,8 +508,6 @@
     return item.setKeepAspectRatio(false);
   }).then(function(item) {
     return item.setKeepLoaded(true);
-  }).then(function(item) {
-    return item.setBrowserCustomSize(xjs.Rectangle.fromDimensions(1920, 1019));
   }).then(function(item) {
     return item.setPositionLocked(true);
   }).then(function(item) {
@@ -557,7 +557,7 @@
       var opacVal = config.opacity / 100;
       for (var i in config) {
           if (sections[i] !== undefined) {
-            if (config[i] === false) {
+            if (config[i] === false || config[i] === "false") {
               sections[i].addClass('hidden');
             } else {
               sections[i].removeClass('hidden');
@@ -645,7 +645,7 @@
 
     var toggleLockComponents = function(locked) {
       var lockValue;
-      if (locked) {
+      if (locked || locked == "true") {
         lockValue = 'disable';
       } else {
         lockValue = 'enable';

@@ -53,39 +53,58 @@
   };
 
   var updateElements = function(config) {
-    if (config.func === true) {
+    if (config.func === true || config.func === "true") {
+      config.func = true;
       elements.func.checked = true;
+    } else {
+      config.func = false;
     }
 
-    if (config.alpha === true) {
+    if (config.alpha === true || config.alpha === "true") {
+      config.alpha = true;
       elements.alpha.checked = true;
+    } else {
+      config.alpha = false;
     }
 
-    if (config.system === true) {
+    if (config.system === true || config.system === "true") {
+      config.system = true;
       elements.system.checked = true;
+    } else {
+      config.system = false;
     }
 
-    if (config.nav === true) {
+    if (config.nav === true || config.nav === "true") {
+      config.nav = true;
       elements.nav.checked = true;
+    } else {
+      config.nav = false;
     }
 
-    if (config.arrow === true) {
+    if (config.arrow === true || config.arrow === "true") {
+      config.arrow = true;
       elements.arrow.checked = true;
+    } else {
+      config.arrow = false;
     }
 
-    if (config.numpad === true) {
+    if (config.numpad === true || config.numpad === "true") {
+      config.numpad = true;
       elements.numpad.checked = true;
+    } else {
+      config.numpad = false;
     }
 
-    if (config.mouse === true) {
+    if (config.mouse === true || config.mouse === "true") {
+      config.mouse = true;
       elements.mouse.checked = true;
     }
 
-    if (config.lock === true) {
+    if (config.lock === true || config.lock === "true") {
       lockCheck.checked = true;
     }
 
-    if (config.keyboard === true) {
+    if (config.keyboard === true || config.keyboard === "true") {
       elements.keyboard.checked = true;
       if (temp === true){
         elements.numpad.checked = true;
@@ -98,7 +117,7 @@
       }
     }
 
-    if (config.keyboard === false) {
+    if (config.keyboard === false || config.keyboard === "false") {
       elements.keyboard.checked = false;
       if (temp === false){
         elements.numpad.checked = false;
@@ -206,13 +225,13 @@
       arrow   : config.arrow !== undefined ? config.arrow : true,
       numpad  : config.numpad !== undefined ? config.numpad : true,
       mouse   : config.mouse !== undefined ? config.mouse : true,
-      keyboard   : config.keyboard !== undefined ? config.keyboard : true,
       lock   : config.lock !== undefined ? config.lock : false,
       textcolor   : config.textcolor !== undefined ? config.textcolor : '#FFFFFF',
       bordercolor   : config.bordercolor !== undefined ? config.bordercolor : '#FFFFFF',
       glowcolor   : config.glowcolor !== undefined ? config.glowcolor : '#FFFFFF',
       opacity   : config.opacity !== undefined ? config.opacity : 100,
     };
+
     selectTextColor.value = config.textcolor;
     selectBorderColor.value = config.bordercolor;
     selectGlowColor.value = config.glowcolor;
