@@ -9,14 +9,14 @@
 body {
   margin: 12px 0 0 0;
   font-family: 'Roboto', sans-serif;
-  font-size: 10px;
+  font-size: 11px;
   padding: 0;
   width: 100%;
   overflow: hidden;
 }
 
 label {
-  font-size: 12px;
+  font-size: 11px;
   color: #CCC;
 
 }
@@ -71,7 +71,6 @@ label {
   display: block;
   background-color: #0098d4;
   position: absolute;
-  width: 15px;
   padding: 0;
   margin: 4px;
   top: 0;
@@ -80,7 +79,7 @@ label {
 
 #lock + .generaltooltip .generalinfo .generalTitle span {
   color: #000000;
-  top: 0;
+  top: -1px;
   padding: 0;
 }
 
@@ -95,16 +94,16 @@ label {
 
 .generalinfo div,
 .keyInfo div {
-  font-size: 12px;
+  font-size: 11px;
   color: #0095DE;
   padding-left: 20px;
 }
 
 #info, .general, .generalTitle {
   background-color: #3d3d3d;
-  width: 15px;
-  height: 15px;
-  font-size: 13px;
+  width: 14px;
+  height: 14px;
+  font-size: 11px;
   font-weight: 900;
   color: #000;
   margin: 5px;
@@ -125,7 +124,7 @@ label {
 }
 
 #info span, .general span,  .generalTitle span {
-  align-self: center;
+  align-self: flex-end;
 }
 
 
@@ -147,14 +146,19 @@ label {
   display: block;
 }
 
-.tooltipcont {
-  position: relative;
-  display: inline-block;
-}
-
+.tooltipcont,
 .generaltooltip {
   position: relative;
   display: inline-block;
+  vertical-align: top;
+}
+
+label.desc > .generaltooltip {
+  margin-top: -4px;
+}
+
+label.desc > .generaltooltip .general span{
+  align-self: center;
 }
 
 .checkelements {
@@ -226,6 +230,10 @@ label {
   background-color: #212121;
 }
 
+#innersection > label {
+  line-height: 16px;
+}
+
 xui-section {
   width: 97%;
   margin: 0;
@@ -241,4 +249,18 @@ xui-colorpicker /deep/ #colorPicker div#paletteContainer
 xui-checkbox /deep/ label
 {
   cursor: pointer;
+}
+
+* /deep/ input[type=text]
+{
+  font-size: 11px;
+  padding: 1px 5px 3px;
+  height: 18px;
+  margin-top: 1px;
+  text-align: center;
+}
+
+* /deep/ input[type=text]:focus
+{
+  background: #555555;
 }

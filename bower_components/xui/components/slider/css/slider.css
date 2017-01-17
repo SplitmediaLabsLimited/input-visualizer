@@ -18,8 +18,10 @@ input[type="range"]
 {
     -webkit-appearance: none;
     margin: 0;
-    border: 1px solid #141414;
-    background-color: #141414;
+    border: 1px solid #000000;
+    border-left: none;
+    border-right: none;
+    background-color: #111111;
     width: 70px;
     cursor: pointer;
     height: 14px;
@@ -29,9 +31,14 @@ input[type="range"]
 input[type="range"]::-webkit-slider-thumb
 {
     -webkit-appearance: none;
-    width: 12px;
-    height: 12px;
-    background-color: #DBDBDB;
+    width: 10px;
+    height: 10px;
+    background-color: #888888;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover
+{
+    background-color: #EEEEEE;
 }
 
 #increment,
@@ -39,22 +46,41 @@ input[type="range"]::-webkit-slider-thumb
 {
     width: 14px;
     height: 14px;
-    background-color: #141414;
+    background-color: #111111;
     background-position: center;
     background-repeat: no-repeat;
+    border: 1px solid #000000;
     display: inline-block;
     cursor: pointer;
     vertical-align: middle;
 }
 
+#increment:hover,
+#decrement:hover
+{
+    color: #EEEEEE;
+}
+
 #increment
 {
     background-image: url("../images/slider_plus.png");
+    border-left: none;
+}
+
+#increment:hover
+{
+    background-image: url("../images/slider_plus_hover.png");
 }
 
 #decrement
 {
     background-image: url("../images/slider_minus.png");
+    border-right: none;
+}
+
+#decrement:hover
+{
+    background-image: url("../images/slider_minus_hover.png");
 }
 
 [type=text]
